@@ -6,7 +6,6 @@ package bookinguniwaapp;
 
 import bookinguniwaapp.core.*;
 import bookinguniwaapp.service.*;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -32,6 +31,7 @@ public class App {
         saveData();
         scanner.close();
         System.out.println("Η εφαρμογή τερματίστηκε επιτυχώς!");
+        
     }
 
     // Αρχικοποίηση των υπηρεσιών
@@ -45,21 +45,34 @@ public class App {
 
     // Φόρτωμα δεδομένων από τα CSV αρχεία
     private static void loadData() {
+        try {
         theaterService.loadData();
         musicService.loadData();
         clientService.loadData();
         bookingService.loadData();
         System.out.println("Τα αρχικά δεδομένα φορτώθηκαν επιτυχώς!");
-    }
+        Thread.sleep(3000);
+        } catch (Exception e) {         // Αν προκύψει σφάλμα κατά την αποθήκευση των δεδομένων
+            System.err.println("Σφάλμα κατά τη φόρτωση των δεδομένων: " + e.getMessage());
+            e.printStackTrace(); // Εκτυπώνει την πλήρη πληροφορία για το σφάλμα
+       }
+    }  
 
     // Αποθήκευση δεδομένων στα CSV αρχεία
     private static void saveData() {
+        try {
         theaterService.saveData();
         musicService.saveData();
         clientService.saveData();
         bookingService.saveData();
         System.out.println("Όλα τα δεδομένα αποθηκεύτηκαν!");
+        }
+        catch (Exception e) { // Αν προκύψει σφάλμα κατά την αποθήκευση των δεδομένων
+            System.err.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
+            e.printStackTrace(); // Εκτυ
+        }
     }
+
 
     private static void pause() { // Μέθοδος για παύση της εκτέλεσης και αναμονή για είσοδο από τον χρήστη
         System.out.print("Πατήστε Enter για να συνεχίσετε...");
