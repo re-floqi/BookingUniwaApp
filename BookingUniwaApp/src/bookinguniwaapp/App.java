@@ -569,7 +569,7 @@ public class App {
     }
 
     // Κράτηση θεατρικής παράστασης
-    private static void bookTheater() { // TODO: δεν αποθηκευει δεδομενα στην υπηρεσία κρατήσεων
+    private static void bookTheater() { 
         clearConsole();
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
         System.out.print("Κωδικός Πελάτη: ");
@@ -623,23 +623,42 @@ public class App {
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
         System.out.print("Κωδικός Πελάτη: ");
         String clientCode = scanner.nextLine();
+
+       do { // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
+            if (clientCode.equalsIgnoreCase("EXIT")) {
+            System.out.println("Έξοδος από την κράτηση.");
+            return;
+            }
+            if (clientCode.equalsIgnoreCase("NEW")) { // κλήση για προσθήκη νέου πελάτη
+            addClient() ;
+            return;
+            }
+
+            if (searchByCodeClient(clientCode)) {
+            break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
+            }
+                else {
+                System.out.println("Δεν υπάρχει  πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο. ή NEW για προσθήκη νέου πελάτη.");
+                System.out.println("Εισάγετε νεο κωδικό πελάτη: ");
+                clientCode = scanner.nextLine();
+            }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
+        
         System.out.print("Κωδικός Παράστασης: ");
         String eventCode = scanner.nextLine();
         
-        // Έλεγχος ύπαρξης πελάτη
-        if (clientService.getClient(clientCode) == null) {
-            System.out.println("Ο πελάτης δεν υπάρχει!");
-            return;
-        }
         
-        // Έλεγχος ύπαρξης παράστασης
-        if (musicService.getMusic(eventCode) == null) {
-            System.out.println("Η παράσταση δεν υπάρχει!");
-            return;
-        }
+
+
+        // todo: να γίνει έλεγχος για την ύπαρξη της παράστασης
+
+
+
+
         
         bookingService.addBooking(new Booking(clientCode, eventCode, "MUSIC"));
         System.out.println("Η κράτηση ολοκληρώθηκε επιτυχώς!");
+        System.out.println("Εγινε κρατηση για την παράσταση: " + musicService.getMusic(eventCode).getTitle() + " για τον πελάτη: " + clientService.getClient(clientCode).getName());
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
