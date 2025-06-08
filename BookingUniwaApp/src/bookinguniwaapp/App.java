@@ -598,7 +598,7 @@ public class App {
         String eventCode = scanner.nextLine();
         do {
             if (eventCode.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την ενημέρωση.");
+            System.out.println("Έξοδος από την κράτηση.");
             return;
             }
 
@@ -646,16 +646,22 @@ public class App {
         
         System.out.print("Κωδικός Παράστασης: ");
         String eventCode = scanner.nextLine();
-        
-        
 
+        do {
+            if (eventCode.equalsIgnoreCase("EXIT")) {
+                System.out.println("Έξοδος από την κράτηση.");
+                return;
+                }
 
-        // todo: να γίνει έλεγχος για την ύπαρξη της παράστασης
-
-
-
-
-        
+            if (searchByCodeMusic(eventCode)) {
+                break;  // Βγήκε από το loop αν βρεθεί το θέατρο
+            }
+            else {
+                System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε κωδικό παραστάσης: ");
+                eventCode = scanner.nextLine();
+        }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         bookingService.addBooking(new Booking(clientCode, eventCode, "MUSIC"));
         System.out.println("Η κράτηση ολοκληρώθηκε επιτυχώς!");
         System.out.println("Εγινε κρατηση για την παράσταση: " + musicService.getMusic(eventCode).getTitle() + " για τον πελάτη: " + clientService.getClient(clientCode).getName());
