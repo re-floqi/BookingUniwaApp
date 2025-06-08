@@ -49,17 +49,18 @@ public class TheaterService {
     }
 
     public void updateTheater(String code, String title, String protagonist, String location, String date) {
-        if (theaterMap.containsKey(code)) {
+        
             Theater theater = theaterMap.get(code);
             theater.setTitle(title);
             theater.setProtagonist(protagonist);
             theater.setLocation(location);
             theater.setDate(date);
             System.out.println("Ενημερώθηκε επιτυχώς!");
-        } else {
-            System.out.println("Δεν βρέθηκε παράσταση με αυτόν τον κωδικό!");
-        }
+
+        
     }
+
+    
 
     public void deleteTheater(String code) {
         if (theaterMap.containsKey(code)) {

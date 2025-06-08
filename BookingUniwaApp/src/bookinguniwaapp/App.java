@@ -45,32 +45,20 @@ public class App {
 
     // Φόρτωμα δεδομένων από τα CSV αρχεία
     private static void loadData() {
-        try {
         theaterService.loadData();
         musicService.loadData();
         clientService.loadData();
         bookingService.loadData();
         System.out.println("Τα αρχικά δεδομένα φορτώθηκαν επιτυχώς!");
-        Thread.sleep(3000);
-        } catch (Exception e) {         // Αν προκύψει σφάλμα κατά την αποθήκευση των δεδομένων
-            System.err.println("Σφάλμα κατά τη φόρτωση των δεδομένων: " + e.getMessage());
-            e.printStackTrace(); // Εκτυπώνει την πλήρη πληροφορία για το σφάλμα
-       }
-    }  
+    }   
 
     // Αποθήκευση δεδομένων στα CSV αρχεία
     private static void saveData() {
-        try {
         theaterService.saveData();
         musicService.saveData();
         clientService.saveData();
         bookingService.saveData();
-        System.out.println("Όλα τα δεδομένα αποθηκεύτηκαν!");
-        }
-        catch (Exception e) { // Αν προκύψει σφάλμα κατά την αποθήκευση των δεδομένων
-            System.err.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
-            e.printStackTrace(); // Εκτυ
-        }
+        System.out.println("Όλα τα δεδομένα αποθηκεύτηκαν!");        
     }
 
 
@@ -78,6 +66,12 @@ public class App {
         System.out.print("Πατήστε Enter για να συνεχίσετε...");
         scanner.nextLine();
     }
+
+    public static void sleep(long millis) {
+    try {
+        Thread.sleep(millis);
+    } catch (InterruptedException ignored) {}
+}
 
     // Κύριο μενού εφαρμογής
     private static void mainMenu() {
@@ -149,7 +143,7 @@ public class App {
         String date = scanner.nextLine();
         
         theaterService.addTheater(new Theater(code, title, protagonist, location, date));
-        System.out.println("Η θεατρική παράσταση προστέθηκε επιτυχώς!");
+        System.out.println("Η θεατρική παράσταση προστέθηκε επιτυχώς!"); // αργότερα θα προσθέσουμε και έλεγχο για διπλότυπα και έλεγχο για επιτυχή αποθήκευση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
@@ -159,6 +153,21 @@ public class App {
         System.out.println("== [Ενημέρωση Θεατρικής Παράστασης] ==");
         System.out.print("Εισάγετε κωδικό παραστάσης: ");
         String code = scanner.nextLine();
+    do {
+    if (code.equalsIgnoreCase("EXIT")) {
+        System.out.println("Έξοδος από την ενημέρωση.");
+        return;
+        }
+
+        if (searchByCodeTheater(code)) {
+        break;  // Βγήκε από το loop αν βρεθεί το θέατρο
+        }
+        else {
+        System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+        System.out.print("Εισάγετε κωδικό παραστάσης: ");
+        code = scanner.nextLine();
+        }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         System.out.print("Νέος τίτλος: ");
         String title = scanner.nextLine();
         System.out.print("Νέος πρωταγωνιστής: ");
@@ -173,12 +182,38 @@ public class App {
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
+    public static boolean searchByCodeTheater(String code) { // Μέθοδος για αναζήτησης βάσει code θεατρού
+    for (Theater tmp : theaterService.getAllTheaters()) {
+        if (tmp.getCode().equals(code)) {
+            return true;  // Επιστρέφει true αν βρει το θεατρικό με το δοσμένο code
+        }
+    }
+    return false;  // Αν δεν βρει το θεατρικό, επιστρέφει false
+    }
+
+
+
     // Διαγραφή θεατρικής παράστασης
     private static void deleteTheater() {
         clearConsole();
         System.out.println("=== [Διαγραφή Θεατρικής Παράστασης] ===");
         System.out.print("Εισάγετε κωδικό παραστάσης: ");
         String code = scanner.nextLine();
+        do {
+            if (code.equalsIgnoreCase("EXIT")) {
+            System.out.println("Έξοδος από την διαγραφή.");
+            return;
+            }
+
+            if (searchByCodeTheater(code)) {
+            break;  // Βγήκε από το loop αν βρεθεί το θέατρο
+            }
+                else {
+                System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.print("Εισάγετε κωδικό παραστάσης: ");
+                code = scanner.nextLine();
+            }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         theaterService.deleteTheater(code);
         System.out.println("Η θεατρική παράσταση διαγράφηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
