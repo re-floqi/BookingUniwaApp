@@ -431,14 +431,38 @@ public class App {
         } while (choice != 5);
     }
 
+    public static boolean searchByCodeClient(String code) { // Μέθοδος για αναζήτησης βάσει code μουσικής παραστάσης
+    for (Client tmp : clientService.getAllClients()) {
+        if (tmp.getCode().equals(code)) {
+            return true;  // Επιστρέφει true αν βρει πελατη
+        }
+    }
+    return false;  // Αν δεν βρει το πελατη, επιστρέφει false
+    }
+
     private static void addClient() {
         clearConsole();
         System.out.println("====== [Εγγραφή Νέου Πελάτη] ======");
         System.out.print("Κωδικός Πελάτη: ");
         String code = scanner.nextLine();
+        do {
+            if (code.equalsIgnoreCase("EXIT")) {
+            System.out.println("Έξοδος από την εγγραφή.");
+            return;
+            }
+
+            if (!searchByCodeClient(code)) {
+            break;  // Βγήκε από το loop αν δεν βρεθεί πελάτης
+            }
+                else {
+                System.out.println("Υπάρχει ήδη πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε νεο κωδικό πελάτη: ");
+                code = scanner.nextLine();
+            }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         System.out.print("Όνοματεπώνυμο: ");
         String name = scanner.nextLine();
-        
+
         clientService.addClient(new Client(code, name));
         System.out.println("Ο πελάτης προστέθηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
@@ -449,6 +473,21 @@ public class App {
         System.out.println("==== [Ενημέρωση Στοιχείων Πελάτη] ====");
         System.out.print("Εισάγετε κωδικό πελάτη: ");
         String code = scanner.nextLine();
+        do {
+            if (code.equalsIgnoreCase("EXIT")) {
+            System.out.println("Έξοδος από την ενημέρωση.");
+            return;
+            }
+
+            if (searchByCodeClient(code)) {
+            break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
+            }
+                else {
+                System.out.println("Υπάρχει ήδη πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε νεο κωδικό πελάτη: ");
+                code = scanner.nextLine();
+            }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         
         System.out.print("Νέο όνοματεπώνυμο: ");
         String name = scanner.nextLine();
@@ -463,6 +502,21 @@ public class App {
         System.out.println("========== [Διαγραφή Πελάτη] ==========");
         System.out.print("Εισάγετε κωδικό πελάτη: ");
         String code = scanner.nextLine();
+        do {
+            if (code.equalsIgnoreCase("EXIT")) {
+            System.out.println("Έξοδος από την διαγραφή.");
+            return;
+            }
+
+            if (searchByCodeClient(code)) {
+            break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
+            }
+                else {
+                System.out.println("Δεν υπάρχει ήδη πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε νεο κωδικό πελάτη: ");
+                code = scanner.nextLine();
+            }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         clientService.deleteClient(code);
         System.out.println("Ο πελάτης διαγράφηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
@@ -475,6 +529,7 @@ public class App {
         
         if (clients.isEmpty()) {
             System.out.println("Δεν βρέθηκαν εγγεγραμμένοι πελάτες.");
+            pause(); // Παύση για να δει ο χρήστης το μήνυμα
         } else {
             for (Client client : clients) {
                 System.out.println("----------------------------------");
@@ -516,11 +571,19 @@ public class App {
     }
 
     // Κράτηση θεατρικής παράστασης
-    private static void bookTheater() {
+    private static void bookTheater() { // TODO: να γίνει έλεγχος αμεσα για τον υπάρχει ο πελάτης και η παράσταση
         clearConsole();
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
         System.out.print("Κωδικός Πελάτη: ");
         String clientCode = scanner.nextLine();
+
+        // TODO
+
+
+
+
+
+
         System.out.print("Κωδικός Παράστασης: ");
         String eventCode = scanner.nextLine();
         
@@ -542,7 +605,7 @@ public class App {
     }
 
     // Κράτηση μουσικής παράστασης
-    private static void bookMusic() {
+    private static void bookMusic() { // TODO: να γίνει έλεγχος αμεσα για τον υπάρχει ο πελάτης και η παράσταση
         clearConsole();
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
         System.out.print("Κωδικός Πελάτη: ");
