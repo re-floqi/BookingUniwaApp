@@ -36,7 +36,6 @@ public class BookingService {
 
     public void addBooking(Booking booking) {
         bookings.add(booking);
-        System.out.println("Κράτηση ολοκληρώθηκε!");
     }
 
     public Map<String, Integer> getTheaterStatistics() {

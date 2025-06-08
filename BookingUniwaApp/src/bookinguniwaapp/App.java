@@ -31,7 +31,7 @@ public class App {
         saveData();
         scanner.close();
         System.out.println("Η εφαρμογή τερματίστηκε επιτυχώς!");
-        
+        sleep(3000);
     }
 
     // Αρχικοποίηση των υπηρεσιών
@@ -50,6 +50,7 @@ public class App {
         clientService.loadData();
         bookingService.loadData();
         System.out.println("Τα αρχικά δεδομένα φορτώθηκαν επιτυχώς!");
+        sleep(3000);
     }   
 
     // Τελικη Αποθήκευση δεδομένων στα CSV αρχεία
@@ -62,7 +63,7 @@ public class App {
     }
 
 
-    private static void pause() { // Μέθοδος για παύση της εκτέλεσης και αναμονή για είσοδο από τον χρήστη
+    public static void pause() { // Μέθοδος για παύση της εκτέλεσης και αναμονή για είσοδο από τον χρήστη
         System.out.print("Πατήστε Enter για να συνεχίσετε...");
         scanner.nextLine();
     }
