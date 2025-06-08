@@ -133,6 +133,21 @@ public class App {
         System.out.println("===== [Προσθήκη Νέας Θεατρικής Παράστασης] ======");
         System.out.print("Κωδικός Παράστασης: ");
         String code = scanner.nextLine();
+        do {
+            if (code.equalsIgnoreCase("EXIT")) {
+            System.out.println("Έξοδος από την προσθήκη.");
+            return;
+            }
+
+            if (!searchByCodeTheater(code)) {
+            break;  // Βγήκε από το loop αν βρεθεί το θέατρο
+            }
+                else {
+                System.out.println("Βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε νεο κωδικό παραστάσης: ");
+                code = scanner.nextLine();
+            }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος        
         System.out.print("Τίτλος: ");
         String title = scanner.nextLine();
         System.out.print("Πρωταγωνιστής: ");
@@ -164,7 +179,7 @@ public class App {
         }
         else {
         System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
-        System.out.print("Εισάγετε κωδικό παραστάσης: ");
+        System.out.println("Εισάγετε κωδικό παραστάσης: ");
         code = scanner.nextLine();
         }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
@@ -210,7 +225,7 @@ public class App {
             }
                 else {
                 System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
-                System.out.print("Εισάγετε κωδικό παραστάσης: ");
+                System.out.println("Εισάγετε κωδικό παραστάσης: ");
                 code = scanner.nextLine();
             }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
@@ -240,6 +255,14 @@ public class App {
             System.out.println("Σύνολο: " + theaters.size() + " παραστάσεις");
             pause(); // Παύση για να δει ο χρήστης το κατάλογο
         }
+    }
+    public static boolean searchByCodeMusic(String code) { // Μέθοδος για αναζήτησης βάσει code μουσικής παραστάσης
+    for (Music tmp : musicService.getAllMusic()) {
+        if (tmp.getCode().equals(code)) {
+            return true;  // Επιστρέφει true αν βρει το μουσικη με το δοσμένο code
+        }
+    }
+    return false;  // Αν δεν βρει το μουσικη, επιστρέφει false
     }
 
     // Διαχείριση μουσικών παραστάσεων (παρόμοια με θεατρικές)
@@ -273,6 +296,21 @@ public class App {
         System.out.println("= [Προσθήκη Νέας Μουσικής Παράστασης] =");
         System.out.print("Κωδικός Παράστασης: ");
         String code = scanner.nextLine();
+        do {
+            if (code.equalsIgnoreCase("EXIT")) {
+            System.out.println("Έξοδος από την προσθήκη.");
+            return;
+            }
+
+            if (!searchByCodeMusic(code)) {
+            break;  // Βγήκε από το loop αν βρεθεί το μουσική
+            }
+                else {
+                System.out.println("Βρέθηκε μουσική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε νεο κωδικό παραστάσης: ");
+                code = scanner.nextLine();
+            }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος        
         System.out.print("Τίτλος: ");
         String title = scanner.nextLine();
         System.out.print("Τραγουδιστής/Συγκρότημα: ");
@@ -292,7 +330,20 @@ public class App {
         System.out.println("=== [Ενημέρωση Μουσικής Παράστασης] ===");
         System.out.print("Εισάγετε κωδικό παραστάσης: ");
         String code = scanner.nextLine();
-        
+        do {
+            if (code.equalsIgnoreCase("EXIT")) {
+            System.out.println("Έξοδος από την ενημέρωση.");
+            return;
+            }
+            if (searchByCodeMusic(code)) {
+                break;  // Βγήκε από το loop αν βρεθεί το μουσική
+            }
+            else {
+            System.out.println("Δεν βρέθηκε μουσική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+            System.out.println("Εισάγετε κωδικό παραστάσης: ");
+            code = scanner.nextLine();
+            }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         System.out.print("Νέος τίτλος: ");
         String title = scanner.nextLine();
         System.out.print("Νέος τραγουδιστής/συγκρότημα: ");
@@ -312,6 +363,20 @@ public class App {
         System.out.println("=== [Διαγραφή Μουσικής Παράστασης] ===");
         System.out.print("Εισάγετε κωδικό παραστάσης: ");
         String code = scanner.nextLine();
+        do {
+            if (code.equalsIgnoreCase("EXIT")) {
+            System.out.println("Έξοδος από την διαγραφή.");
+            return;
+                }
+                if (searchByCodeTheater(code)) {
+                break;  // Βγήκε από το loop αν βρεθεί το θέατρο
+                }
+                else {
+                System.out.println("Δεν βρέθηκε μουσική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε κωδικό παραστάσης: ");
+                code = scanner.nextLine();
+            }
+        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         musicService.deleteMusic(code);
         System.out.println("Η μουσική παράσταση διαγράφηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
