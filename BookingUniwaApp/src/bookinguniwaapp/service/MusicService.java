@@ -36,37 +36,48 @@ public class MusicService {
                 music.getDate()
             });
         }
-        csvService.writeCsv(filename, data);
+        try {
+            csvService.writeCsv(filename, data); // Αποθήκευση δεδομένων μουσικής
+            System.out.println("Η Αποθήκευση δεδομένων μουσικής επιτυχής!");
+        } catch (Exception e) {
+            System.out.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
+        }
     }
 
     public void addMusic(Music music) {
         if (!musicMap.containsKey(music.getCode())) {
+            try {
             musicMap.put(music.getCode(), music);
-            System.out.println("Προστέθηκε επιτυχώς!");
-        } else {
-            System.out.println("Υπάρχει ήδη μουσική παράσταση με αυτόν τον κωδικό!");
+            System.out.println("Προστέθηκε επιτυχώς!"); 
+        }
+            catch (Exception e) {
+                System.out.println("Σφάλμα κατά την προσθήκη της μουσικής παράστασης: " + e.getMessage());
+            }
         }
     }
 
     public void updateMusic(String code, String title, String singer, String location, String date) {
+        try {
         if (musicMap.containsKey(code)) {
             Music music = musicMap.get(code);
             music.setTitle(title);
             music.setSinger(singer);
             music.setLocation(location);
             music.setDate(date);
-            System.out.println("Ενημερώθηκε επιτυχώς!");
-        } else {
-            System.out.println("Δεν βρέθηκε παράσταση με αυτόν τον κωδικό!");
+            System.out.println("Ενημερώθηκε επιτυχώς!"); }
+        } catch (Exception e) {
+            System.out.println("Σφάλμα κατά την ενημέρωση της μουσικής παράστασης: " + e.getMessage());
         }
     }
 
     public void deleteMusic(String code) {
+        try {
         if (musicMap.containsKey(code)) {
             musicMap.remove(code);
             System.out.println("Διαγράφηκε επιτυχώς!");
-        } else {
-            System.out.println("Δεν βρέθηκε παράσταση με αυτόν τον κωδικό!");
+        } 
+        } catch (Exception e) {
+            System.out.println("Σφάλμα κατά τη διαγραφή της μουσικής παράστασης: " + e.getMessage());
         }
     }
 

@@ -15,6 +15,7 @@ public class TheaterService {
 
     public void loadData() {
         List<String[]> records = csvService.readCsv(filename);
+        try {
         for (String[] record : records) {
             if (record.length >= 5) {
                 Theater theater = new Theater(
@@ -22,6 +23,10 @@ public class TheaterService {
                 );
                 theaterMap.put(record[0], theater);
             }
+        }
+    }
+    catch (Exception e) {
+            System.out.println("Σφάλμα κατά την ανάγνωση των θεατρικών παραστάσεων: " + e.getMessage());
         }
     }
 
@@ -40,22 +45,27 @@ public class TheaterService {
     }
 
     public void addTheater(Theater theater) {
+        try {
         if (!theaterMap.containsKey(theater.getCode())) {
             theaterMap.put(theater.getCode(), theater);
             System.out.println("Προστέθηκε επιτυχώς!");
-        } else {
-            System.out.println("Υπάρχει ήδη θεατρική παράσταση με αυτόν τον κωδικό!");
-        }
+        } }
+        catch (Exception e) {
+            System.out.println("Σφάλμα κατά την προσθήκη της θεατρικής παράστασης: " + e.getMessage());
     }
+}
 
     public void updateTheater(String code, String title, String protagonist, String location, String date) {
-        
+        try {
             Theater theater = theaterMap.get(code);
             theater.setTitle(title);
             theater.setProtagonist(protagonist);
             theater.setLocation(location);
             theater.setDate(date);
             System.out.println("Ενημερώθηκε επιτυχώς!");
+        } catch (Exception e) {
+            System.out.println("Σφάλμα κατά την ενημέρωση της θεατρικής παράστασης: " + e.getMessage());
+        }
 
         
     }
@@ -63,11 +73,13 @@ public class TheaterService {
     
 
     public void deleteTheater(String code) {
+        try {
         if (theaterMap.containsKey(code)) {
             theaterMap.remove(code);
             System.out.println("Διαγράφηκε επιτυχώς!");
-        } else {
-            System.out.println("Δεν βρέθηκε παράσταση με αυτόν τον κωδικό!");
+        } }
+        catch (Exception e) {
+            System.out.println("Σφάλμα κατά τη διαγραφή της θεατρικής παράστασης: " + e.getMessage());
         }
     }
 

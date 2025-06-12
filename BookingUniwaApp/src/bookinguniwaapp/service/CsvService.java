@@ -7,7 +7,7 @@ public class CsvService {
     private static final String DATA_DIR = "data";
 
     public CsvService() {
-        // Create data directory if it doesn't exist
+        // Δημιουργία φακέλου δεδομένων "data" αν δεν υπάρχει
         File dataDir = new File(DATA_DIR);
         if (!dataDir.exists()) {
             dataDir.mkdir();
@@ -32,6 +32,7 @@ public class CsvService {
             for (String[] record : data) {
                 bw.write(String.join(",", record));
                 bw.newLine();
+                System.out.println("Εγγραφή δεδομένων στο αρχείο: " + String.join(",", record));
             }
         } catch (IOException e) {
             System.out.println("Σφάλμα εγγραφής αρχείου: " + e.getMessage());

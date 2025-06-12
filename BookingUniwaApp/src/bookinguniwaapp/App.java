@@ -475,7 +475,7 @@ public class App {
 
         clientService.addClient(new Client(code, name));
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
-        System.out.println("Ο πελάτης προστέθηκε επιτυχώς!");
+        // System.out.println("Ο πελάτης προστέθηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 

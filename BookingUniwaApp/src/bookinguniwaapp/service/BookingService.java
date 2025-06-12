@@ -17,7 +17,11 @@ public class BookingService {
         List<String[]> records = csvService.readCsv(filename);
         for (String[] record : records) {
             if (record.length >= 3) {
+                try {
                 bookings.add(new Booking(record[0], record[1], record[2]));
+            } catch (Exception e) {
+                System.out.println("Σφάλμα κατά την ανάγνωση της κράτησης: " + e.getMessage());
+            }
             }
         }
     }
@@ -31,7 +35,11 @@ public class BookingService {
                 booking.getEventType()
             });
         }
-        csvService.writeCsv(filename, data);
+        try {
+        csvService.writeCsv(filename, data); }
+        catch (Exception e) {
+            System.out.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
+        }
     }
 
     public void addBooking(Booking booking) {
