@@ -32,10 +32,18 @@ public class CsvService {
             for (String[] record : data) {
                 bw.write(String.join(",", record));
                 bw.newLine();
-                System.out.println("Εγγραφή δεδομένων στο αρχείο: " + String.join(",", record));
             }
+            System.out.println("Τα δεδομένα αποθηκεύτηκαν επιτυχώς στο αρχείο: " + filename);
+        } catch (FileNotFoundException e) {
+            System.out.println("Το αρχείο δεν βρέθηκε: " + e.getMessage());
+        } catch (SecurityException e) {
+            System.out.println("Δεν έχετε δικαιώματα εγγραφής στο αρχείο: " + e.getMessage());
         } catch (IOException e) {
-            System.out.println("Σφάλμα εγγραφής αρχείου: " + e.getMessage());
+            if (e.getMessage().contains("No space left on device")) {
+                System.out.println("Δεν υπάρχει αρκετός χώρος στο δίσκο για την εγγραφή του αρχείου.");
+            } else {
+                System.out.println("Σφάλμα εγγραφής αρχείου: " + e.getMessage());
+            }
         }
     }
 }

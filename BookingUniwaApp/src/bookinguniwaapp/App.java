@@ -160,7 +160,6 @@ public class App {
         
         theaterService.addTheater(new Theater(code, title, protagonist, location, date));
         theaterService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
-        System.out.println("Η θεατρική παράσταση προστέθηκε επιτυχώς!"); // αργότερα θα προσθέσουμε και έλεγχο για διπλότυπα και έλεγχο για επιτυχή αποθήκευση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
@@ -195,7 +194,6 @@ public class App {
         String date = scanner.nextLine();
         
         theaterService.updateTheater(code, title, protagonist, location, date);
-        System.out.println("Η θεατρική παράσταση ενημερώθηκε επιτυχώς!");
         theaterService.saveData(); // Αποθήκευση των δεδομένων μετά την ενημέρωση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
@@ -234,8 +232,6 @@ public class App {
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         theaterService.deleteTheater(code);
         theaterService.saveData(); // Αποθήκευση των δεδομένων μετά την διαγραφή
-         // Εδώ θα μπορούσαμε να προσθέσουμε και έλεγχο για το αν η διαγραφή ήταν επιτυχής
-        System.out.println("Η θεατρική παράσταση διαγράφηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
@@ -327,7 +323,6 @@ public class App {
         
         musicService.addMusic(new Music(code, title, singer, location, date));
         musicService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
-        System.out.println("Η μουσική παράσταση προστέθηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
@@ -361,8 +356,6 @@ public class App {
         
         musicService.updateMusic(code, title, singer, location, date);
         musicService.saveData(); // Αποθήκευση των δεδομένων μετά την ενημέρωση
-         // Εδώ θα μπορούσαμε να προσθέσουμε και έλεγχο για το αν η ενημέρωση ήταν επιτυχής 
-        System.out.println("Η μουσική παράσταση ενημερώθηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
@@ -386,7 +379,6 @@ public class App {
             }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         musicService.deleteMusic(code);
-        System.out.println("Η μουσική παράσταση διαγράφηκε επιτυχώς!");
         musicService.saveData(); // Αποθήκευση των δεδομένων μετά την διαγραφή
          // Εδώ θα μπορούσαμε να προσθέσουμε και έλεγχο για το αν η διαγραφή ήταν επιτυχής
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
@@ -475,7 +467,6 @@ public class App {
 
         clientService.addClient(new Client(code, name));
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
-        // System.out.println("Ο πελάτης προστέθηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
@@ -503,8 +494,6 @@ public class App {
         String name = scanner.nextLine();
         clientService.updateClient(code, name);
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
-         // Εδώ θα μπορούσαμε να προσθέσουμε και έλεγχο για το αν η ενημέρωση ήταν επιτυχής
-        System.out.println("Τα στοιχεία του πελάτη ενημερώθηκαν επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
@@ -530,8 +519,6 @@ public class App {
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         clientService.deleteClient(code);
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την διαγραφή
-         // Εδώ θα μπορούσαμε να προσθέσουμε και έλεγχο για το αν η διαγραφή ήταν επιτυχής
-        System.out.println("Ο πελάτης διαγράφηκε επιτυχώς!");
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
@@ -628,8 +615,8 @@ public class App {
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         
         bookingService.addBooking(new Booking(clientCode, eventCode, "THEATER"));
-        bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         System.out.println("Εγινε κρατηση για την παράσταση: " + theaterService.getTheater(eventCode).getTitle() + " για τον πελάτη: " + clientService.getClient(clientCode).getName());
+        bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
@@ -679,8 +666,8 @@ public class App {
         }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         bookingService.addBooking(new Booking(clientCode, eventCode, "MUSIC"));
-        bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         System.out.println("Εγινε κρατηση για την παράσταση: " + musicService.getMusic(eventCode).getTitle() + " για τον πελάτη: " + clientService.getClient(clientCode).getName());
+        bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
