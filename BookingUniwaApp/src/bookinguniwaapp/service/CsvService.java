@@ -12,6 +12,7 @@ public class CsvService {
         if (!dataDir.exists()) {
             dataDir.mkdir();
         }
+        System.out.println("Working directory: " + System.getProperty("user.dir"));
     }
 
     public List<String[]> readCsv(String filename) {

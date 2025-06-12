@@ -25,8 +25,10 @@ public class App {
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in); // ΠΡΩΤΑ το scanner
+        art(); // Εκτύπωση ASCII art
         initializeServices();
         loadData();
+        sleep(3000); // delay 3 δευτερολέπτων για να δει ο χρήστης το μήνυμα για workingdirectory και τα δεδομένα που φορτώθηκαν
         mainMenu();
         saveData();
         scanner.close();
@@ -50,7 +52,6 @@ public class App {
         clientService.loadData();
         bookingService.loadData();
         System.out.println("Τα αρχικά δεδομένα φορτώθηκαν επιτυχώς!");
-        sleep(3000);
     }   
 
     // Τελικη Αποθήκευση δεδομένων στα CSV αρχεία
@@ -736,5 +737,13 @@ public static void clearConsole() { // Μέθοδος για καθαρισμό 
         System.out.flush();
     }  
 }
+public static void art() {
+        System.out.println();
+        System.out.println("   __  ___   _______       _____ ");sleep(300);
+        System.out.println("  / / / / | / /  _/ |     / /   |");sleep(300);
+        System.out.println(" / / / /  |/ // / | | /| / / /| |");sleep(300);
+        System.out.println("/ /_/ / /|  // /  | |/ |/ / ___ |");sleep(300);
+        System.out.println("\\____/_/ |_/___/  |__/|__/_/  |_|");sleep(300);
 
+}
 }
