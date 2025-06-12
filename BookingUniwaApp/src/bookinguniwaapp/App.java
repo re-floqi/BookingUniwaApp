@@ -31,7 +31,7 @@ public class App {
         saveData();
         scanner.close();
         System.out.println("Η εφαρμογή τερματίστηκε επιτυχώς!");
-        sleep(3000);
+        sleep(2000);
     }
 
     // Αρχικοποίηση των υπηρεσιών
