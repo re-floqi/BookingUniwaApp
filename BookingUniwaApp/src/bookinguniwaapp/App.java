@@ -52,7 +52,7 @@ public class App {
         musicService.loadData();
         clientService.loadData();
         bookingService.loadData();
-        System.out.println("Τα αρχικά δεδομένα φορτώθηκαν επιτυχώς!");
+        System.out.println("Τα αρχικά δεδομένα φορτώθηκαν επιτυχώς!"); // Μήνυμα επιβεβαίωσης φόρτωσης
     }   
 
     // Τελικη Αποθήκευση δεδομένων στα CSV αρχεία
@@ -61,7 +61,7 @@ public class App {
         musicService.saveData();
         clientService.saveData();
         bookingService.saveData();
-        System.out.println("Όλα τα δεδομένα αποθηκεύτηκαν!");        
+        System.out.println("Όλα τα δεδομένα αποθηκεύτηκαν!"); // Μήνυμα επιβεβαίωσης αποθήκευσης
     }
 
 
@@ -70,7 +70,7 @@ public class App {
         scanner.nextLine();
     }
 
-    public static void sleep(long millis) {
+    public static void sleep(long millis) { // Μέθοδος για καθυστέρηση εκτέλεσης
     try {
         Thread.sleep(millis);
     } catch (InterruptedException ignored) {}
@@ -130,6 +130,11 @@ public class App {
         } while (choice != 5);
     }
 
+    // Γενική μέθοδος αναζήτησης βάσει κωδικού για όλες τις οντότητες
+    public static <T> boolean searchByCode(CrudService<T> service, String code) {
+        return service.exists(code);
+    }
+
     // Προσθήκη νέας θεατρικής παράστασης
     private static void addTheater() {
         clearConsole();
@@ -138,19 +143,17 @@ public class App {
         String code = scanner.nextLine();
         do {
             if (code.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την προσθήκη.");
-            return;
+                System.out.println("Έξοδος από την προσθήκη.");
+                return;
             }
-
-            if (!searchByCodeTheater(code)) {
-            break;  // Βγήκε από το loop αν βρεθεί το θέατρο
-            }
-                else {
+            if (!searchByCode(theaterService, code)) {
+                break;
+            } else {
                 System.out.println("Βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
                 System.out.println("Εισάγετε νεο κωδικό παραστάσης: ");
                 code = scanner.nextLine();
             }
-        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος        
+        } while (true);
         System.out.print("Τίτλος: ");
         String title = scanner.nextLine();
         System.out.print("Πρωταγωνιστής: ");
@@ -159,10 +162,9 @@ public class App {
         String location = scanner.nextLine();
         System.out.print("Ημερομηνία (YYYY-MM-DD): ");
         String date = scanner.nextLine();
-        
-        theaterService.addTheater(new Theater(code, title, protagonist, location, date));
-        theaterService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
-        pause(); // Παύση για να δει ο χρήστης το μήνυμα
+        theaterService.add(code, new Theater(code, title, protagonist, location, date));
+        theaterService.saveData();
+        pause();
     }
 
     // Ενημέρωση υπάρχουσας θεατρικής παράστασης
@@ -171,21 +173,19 @@ public class App {
         System.out.println("== [Ενημέρωση Θεατρικής Παράστασης] ==");
         System.out.print("Εισάγετε κωδικό παραστάσης: ");
         String code = scanner.nextLine();
-    do {
-    if (code.equalsIgnoreCase("EXIT")) {
-        System.out.println("Έξοδος από την ενημέρωση.");
-        return;
-        }
-
-        if (searchByCodeTheater(code)) {
-        break;  // Βγήκε από το loop αν βρεθεί το θέατρο
-        }
-        else {
-        System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
-        System.out.println("Εισάγετε κωδικό παραστάσης: ");
-        code = scanner.nextLine();
-        }
-        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
+        do {
+            if (code.equalsIgnoreCase("EXIT")) {
+                System.out.println("Έξοδος από την ενημέρωση.");
+                return;
+            }
+            if (searchByCode(theaterService, code)) {
+                break;
+            } else {
+                System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε κωδικό παραστάσης: ");
+                code = scanner.nextLine();
+            }
+        } while (true);
         System.out.print("Νέος τίτλος: ");
         String title = scanner.nextLine();
         System.out.print("Νέος πρωταγωνιστής: ");
@@ -194,24 +194,11 @@ public class App {
         String location = scanner.nextLine();
         System.out.print("Νέα ημερομηνία (YYYY-MM-DD): ");
         String date = scanner.nextLine();
-        
-        theaterService.updateTheater(code, title, protagonist, location, date);
-        theaterService.saveData(); // Αποθήκευση των δεδομένων μετά την ενημέρωση
-        pause(); // Παύση για να δει ο χρήστης το μήνυμα
+        theaterService.update(code, new Theater(code, title, protagonist, location, date));
+        theaterService.saveData();
+        pause();
     }
 
-    public static boolean searchByCodeTheater(String code) { // Μέθοδος για αναζήτησης βάσει code θεατρού
-    for (Theater tmp : theaterService.getAllTheaters()) {
-        if (tmp.getCode().equals(code)) {
-            return true;  // Επιστρέφει true αν βρει το θεατρικό με το δοσμένο code
-        }
-    }
-    return false;  // Αν δεν βρει το θεατρικό, επιστρέφει false
-    }
-
-
-
-    // Διαγραφή θεατρικής παράστασης
     private static void deleteTheater() {
         clearConsole();
         System.out.println("=== [Διαγραφή Θεατρικής Παράστασης] ===");
@@ -219,30 +206,26 @@ public class App {
         String code = scanner.nextLine();
         do {
             if (code.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την διαγραφή.");
-            return;
+                System.out.println("Έξοδος από την διαγραφή.");
+                return;
             }
-
-            if (searchByCodeTheater(code)) {
-            break;  // Βγήκε από το loop αν βρεθεί το θέατρο
-            }
-                else {
+            if (searchByCode(theaterService, code)) {
+                break;
+            } else {
                 System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
                 System.out.println("Εισάγετε κωδικό παραστάσης: ");
                 code = scanner.nextLine();
             }
-        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
-        theaterService.deleteTheater(code);
-        theaterService.saveData(); // Αποθήκευση των δεδομένων μετά την διαγραφή
-        pause(); // Παύση για να δει ο χρήστης το μήνυμα
+        } while (true);
+        theaterService.delete(code);
+        theaterService.saveData();
+        pause();
     }
 
-    // Εμφάνιση όλων των θεατρικών παραστάσεων
     private static void showAllTheaters() {
         clearConsole();
         System.out.println("== [Κατάλογος Θεατρικών Παραστάσεων] ==");
-        List<Theater> theaters = theaterService.getAllTheaters();
-        
+        List<Theater> theaters = theaterService.getAll();
         if (theaters.isEmpty()) {
             System.out.println("Δεν βρέθηκαν διαθέσιμες παραστάσεις.");
         } else {
@@ -256,16 +239,17 @@ public class App {
             }
             System.out.println("----------------------------------");
             System.out.println("Σύνολο: " + theaters.size() + " παραστάσεις");
-            pause(); // Παύση για να δει ο χρήστης το κατάλογο
+            pause();
         }
     }
-    public static boolean searchByCodeMusic(String code) { // Μέθοδος για αναζήτησης βάσει code μουσικής παραστάσης
-    for (Music tmp : musicService.getAllMusic()) {
-        if (tmp.getCode().equals(code)) {
-            return true;  // Επιστρέφει true αν βρει το μουσικη με το δοσμένο code
-        }
+    public static boolean searchByCodeTheater(String code) {
+        return searchByCode(theaterService, code);
     }
-    return false;  // Αν δεν βρει το μουσικη, επιστρέφει false
+    public static boolean searchByCodeMusic(String code) {
+        return searchByCode(musicService, code);
+    }
+    public static boolean searchByCodeClient(String code) {
+        return searchByCode(clientService, code);
     }
 
     // Διαχείριση μουσικών παραστάσεων (παρόμοια με θεατρικές)
@@ -301,19 +285,17 @@ public class App {
         String code = scanner.nextLine();
         do {
             if (code.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την προσθήκη.");
-            return;
+                System.out.println("Έξοδος από την προσθήκη.");
+                return;
             }
-
-            if (!searchByCodeMusic(code)) {
-            break;  // Βγήκε από το loop αν βρεθεί το μουσική
-            }
-                else {
+            if (!searchByCode(musicService, code)) {
+                break;
+            } else {
                 System.out.println("Βρέθηκε μουσική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
                 System.out.println("Εισάγετε νεο κωδικό παραστάσης: ");
                 code = scanner.nextLine();
             }
-        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος        
+        } while (true);
         System.out.print("Τίτλος: ");
         String title = scanner.nextLine();
         System.out.print("Τραγουδιστής/Συγκρότημα: ");
@@ -322,10 +304,9 @@ public class App {
         String location = scanner.nextLine();
         System.out.print("Ημερομηνία (YYYY-MM-DD): ");
         String date = scanner.nextLine();
-        
-        musicService.addMusic(new Music(code, title, singer, location, date));
-        musicService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
-        pause(); // Παύση για να δει ο χρήστης το μήνυμα
+        musicService.add(code, new Music(code, title, singer, location, date));
+        musicService.saveData();
+        pause();
     }
 
     private static void updateMusic() {
@@ -335,18 +316,17 @@ public class App {
         String code = scanner.nextLine();
         do {
             if (code.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την ενημέρωση.");
-            return;
+                System.out.println("Έξοδος από την ενημέρωση.");
+                return;
             }
-            if (searchByCodeMusic(code)) {
-                break;  // Βγήκε από το loop αν βρεθεί το μουσική
+            if (searchByCode(musicService, code)) {
+                break;
+            } else {
+                System.out.println("Δεν βρέθηκε μουσική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε κωδικό παραστάσης: ");
+                code = scanner.nextLine();
             }
-            else {
-            System.out.println("Δεν βρέθηκε μουσική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
-            System.out.println("Εισάγετε κωδικό παραστάσης: ");
-            code = scanner.nextLine();
-            }
-        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
+        } while (true);
         System.out.print("Νέος τίτλος: ");
         String title = scanner.nextLine();
         System.out.print("Νέος τραγουδιστής/συγκρότημα: ");
@@ -355,10 +335,9 @@ public class App {
         String location = scanner.nextLine();
         System.out.print("Νέα ημερομηνία (YYYY-MM-DD): ");
         String date = scanner.nextLine();
-        
-        musicService.updateMusic(code, title, singer, location, date);
-        musicService.saveData(); // Αποθήκευση των δεδομένων μετά την ενημέρωση
-        pause(); // Παύση για να δει ο χρήστης το μήνυμα
+        musicService.update(code, new Music(code, title, singer, location, date));
+        musicService.saveData();
+        pause();
     }
 
     private static void deleteMusic() {
@@ -368,29 +347,26 @@ public class App {
         String code = scanner.nextLine();
         do {
             if (code.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την διαγραφή.");
-            return;
-                }
-                if (searchByCodeTheater(code)) {
-                break;  // Βγήκε από το loop αν βρεθεί το θέατρο
-                }
-                else {
+                System.out.println("Έξοδος από την διαγραφή.");
+                return;
+            }
+            if (searchByCode(musicService, code)) {
+                break;
+            } else {
                 System.out.println("Δεν βρέθηκε μουσική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
                 System.out.println("Εισάγετε κωδικό παραστάσης: ");
                 code = scanner.nextLine();
             }
-        } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
-        musicService.deleteMusic(code);
-        musicService.saveData(); // Αποθήκευση των δεδομένων μετά την διαγραφή
-         // Εδώ θα μπορούσαμε να προσθέσουμε και έλεγχο για το αν η διαγραφή ήταν επιτυχής
-        pause(); // Παύση για να δει ο χρήστης το μήνυμα
+        } while (true);
+        musicService.delete(code);
+        musicService.saveData();
+        pause();
     }
 
     private static void showAllMusic() {
         clearConsole();
         System.out.println("== [Κατάλογος Μουσικών Παραστάσεων] ==");
-        List<Music> musicShows = musicService.getAllMusic();
-        
+        List<Music> musicShows = musicService.getAll();
         if (musicShows.isEmpty()) {
             System.out.println("Δεν βρέθηκαν διαθέσιμες παραστάσεις.");
         } else {
@@ -404,7 +380,7 @@ public class App {
             }
             System.out.println("----------------------------------");
             System.out.println("Σύνολο: " + musicShows.size() + " παραστάσεις");
-            pause(); // Παύση για να δει ο χρήστης το κατάλογο
+            pause();
         }
     }
 
@@ -435,15 +411,6 @@ public class App {
         } while (choice != 5);
     }
 
-    public static boolean searchByCodeClient(String code) { // Μέθοδος για αναζήτησης βάσει code μουσικής παραστάσης
-    for (Client tmp : clientService.getAllClients()) {
-        if (tmp.getCode().equals(code)) {
-            return true;  // Επιστρέφει true αν βρει πελατη
-        }
-    }
-    return false;  // Αν δεν βρει το πελατη, επιστρέφει false
-    }
-
     private static void addClient() {
         clearConsole();
         System.out.println("====== [Εγγραφή Νέου Πελάτη] ======");
@@ -455,7 +422,7 @@ public class App {
             return;
             }
 
-            if (!searchByCodeClient(code)) {
+            if (!searchByCode(clientService, code)) {
             break;  // Βγήκε από το loop αν δεν βρεθεί πελάτης
             }
                 else {
@@ -467,7 +434,7 @@ public class App {
         System.out.print("Όνοματεπώνυμο: ");
         String name = scanner.nextLine();
 
-        clientService.addClient(new Client(code, name));
+        clientService.add(code, new Client(code, name));
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
@@ -483,18 +450,18 @@ public class App {
             return;
             }
 
-            if (searchByCodeClient(code)) {
+            if (searchByCode(clientService, code)) {
             break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
             }
                 else {
-                System.out.println("Υπάρχει ήδη πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
-                System.out.println("Εισάγετε νεο κωδικό πελάτη: ");
+                System.out.println("Δεν βρέθηκε πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
+                System.out.println("Εισάγετε κωδικό πελάτη: ");
                 code = scanner.nextLine();
             }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         System.out.print("Νέο όνοματεπώνυμο: ");
         String name = scanner.nextLine();
-        clientService.updateClient(code, name);
+        clientService.update(code, new Client(code, name));
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
@@ -510,7 +477,7 @@ public class App {
             return;
             }
 
-            if (searchByCodeClient(code)) {
+            if (searchByCode(clientService, code)) {
             break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
             }
                 else {
@@ -519,7 +486,7 @@ public class App {
                 code = scanner.nextLine();
             }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
-        clientService.deleteClient(code);
+        clientService.delete(code);
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την διαγραφή
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
@@ -527,7 +494,7 @@ public class App {
     private static void showAllClients() {
         clearConsole();
         System.out.println("========= [Κατάλογος Πελατών] =========");
-        List<Client> clients = clientService.getAllClients();
+        List<Client> clients = clientService.getAll();
         
         if (clients.isEmpty()) {
             System.out.println("Δεν βρέθηκαν εγγεγραμμένοι πελάτες.");
@@ -589,7 +556,7 @@ public class App {
             return;
             }
 
-            if (searchByCodeClient(clientCode)) {
+            if (searchByCode(clientService, clientCode)) {
             break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
             }
                 else {
@@ -606,7 +573,7 @@ public class App {
             return;
             }
 
-            if (searchByCodeTheater(eventCode)) {
+            if (searchByCode(theaterService, eventCode)) {
             break;  // Βγήκε από το loop αν βρεθεί το θέατρο
             }
             else {
@@ -617,13 +584,13 @@ public class App {
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         
         bookingService.addBooking(new Booking(clientCode, eventCode, "THEATER"));
-        System.out.println("Εγινε κρατηση για την παράσταση: " + theaterService.getTheater(eventCode).getTitle() + " για τον πελάτη: " + clientService.getClient(clientCode).getName());
+        System.out.println("Εγινε κρατηση για την παράσταση: " + theaterService.get(eventCode).getTitle() + " για τον πελάτη: " + clientService.get(clientCode).getName());
         bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
     // Κράτηση μουσικής παράστασης
-    private static void bookMusic() { // TODO: να γίνει έλεγχος αμεσα για τον υπάρχει ο πελάτης και η παράσταση
+    private static void bookMusic() {
         clearConsole();
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
         System.out.print("Κωδικός Πελάτη: ");
@@ -639,7 +606,7 @@ public class App {
             return;
             }
 
-            if (searchByCodeClient(clientCode)) {
+            if (searchByCode(clientService, clientCode)) {
             break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
             }
                 else {
@@ -668,7 +635,7 @@ public class App {
         }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         bookingService.addBooking(new Booking(clientCode, eventCode, "MUSIC"));
-        System.out.println("Εγινε κρατηση για την παράσταση: " + musicService.getMusic(eventCode).getTitle() + " για τον πελάτη: " + clientService.getClient(clientCode).getName());
+        System.out.println("Εγινε κρατηση για την παράσταση: " + musicService.get(eventCode).getTitle() + " για τον πελάτη: " + clientService.get(clientCode).getName());
         bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
@@ -684,7 +651,7 @@ public class App {
         } else {
             System.out.println("Κρατήσεις ανά Παράσταση:");
             for (Map.Entry<String, Integer> entry : stats.entrySet()) {
-                Theater theater = theaterService.getTheater(entry.getKey());
+                Theater theater = theaterService.get(entry.getKey());
                 if (theater != null) {
                     System.out.printf("- %s: %s: %d κρατήσεις%n", 
                         theater.getCode(), theater.getTitle(), entry.getValue());
@@ -706,7 +673,7 @@ public class App {
         } else {
             System.out.println("Κρατήσεις ανά Παράσταση:");
             for (Map.Entry<String, Integer> entry : stats.entrySet()) {
-                Music music = musicService.getMusic(entry.getKey());
+                Music music = musicService.get(entry.getKey());
                 if (music != null) {
                     System.out.printf("- %s: %s: %d κρατήσεις%n", 
                         music.getCode(), music.getTitle(), entry.getValue());

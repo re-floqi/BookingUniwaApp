@@ -3,9 +3,13 @@ package bookinguniwaapp.service;
 import bookinguniwaapp.core.Music;
 import java.util.*;
 
-public class MusicService extends EventService<Music> {
+public class MusicService extends CrudService<Music> {
+    private final CsvService csvService;
+    private final String filename;
+
     public MusicService(CsvService csvService, String filename) {
-        super(csvService, filename);
+        this.csvService = csvService;
+        this.filename = filename;
     }
 
     public void loadData() {
@@ -15,14 +19,14 @@ public class MusicService extends EventService<Music> {
                 Music music = new Music(
                     record[0], record[1], record[2], record[3], record[4]
                 );
-                eventMap.put(record[0], music);
+                entityMap.put(record[0], music);
             }
         }
     }
 
     public void saveData() {
         List<String[]> data = new ArrayList<>();
-        for (Music music : eventMap.values()) {
+        for (Music music : entityMap.values()) {
             data.add(new String[]{
                 music.getCode(),
                 music.getTitle(),
@@ -32,55 +36,10 @@ public class MusicService extends EventService<Music> {
             });
         }
         try {
-            csvService.writeCsv(filename, data); // Αποθήκευση δεδομένων μουσικής
+            csvService.writeCsv(filename, data);
             System.out.println("Η Αποθήκευση δεδομένων μουσικής επιτυχής!");
         } catch (Exception e) {
             System.out.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
         }
-    }
-
-    public void addMusic(Music music) {
-        if (!eventMap.containsKey(music.getCode())) {
-            try {
-            eventMap.put(music.getCode(), music);
-            System.out.println("Προστέθηκε επιτυχώς!"); 
-        }
-            catch (Exception e) {
-                System.out.println("Σφάλμα κατά την προσθήκη της μουσικής παράστασης: " + e.getMessage());
-            }
-        }
-    }
-
-    public void updateMusic(String code, String title, String singer, String location, String date) {
-        try {
-        if (eventMap.containsKey(code)) {
-            Music music = eventMap.get(code);
-            music.setTitle(title);
-            music.setSinger(singer);
-            music.setLocation(location);
-            music.setDate(date);
-            System.out.println("Ενημερώθηκε επιτυχώς!"); }
-        } catch (Exception e) {
-            System.out.println("Σφάλμα κατά την ενημέρωση της μουσικής παράστασης: " + e.getMessage());
-        }
-    }
-
-    public void deleteMusic(String code) {
-        try {
-        if (eventMap.containsKey(code)) {
-            eventMap.remove(code);
-            System.out.println("Διαγράφηκε επιτυχώς!");
-        } 
-        } catch (Exception e) {
-            System.out.println("Σφάλμα κατά τη διαγραφή της μουσικής παράστασης: " + e.getMessage());
-        }
-    }
-
-    public List<Music> getAllMusic() {
-        return new ArrayList<>(eventMap.values());
-    }
-
-    public Music getMusic(String code) {
-        return eventMap.get(code);
     }
 }
