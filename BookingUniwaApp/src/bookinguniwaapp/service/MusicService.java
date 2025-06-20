@@ -3,14 +3,9 @@ package bookinguniwaapp.service;
 import bookinguniwaapp.core.Music;
 import java.util.*;
 
-public class MusicService {
-    private final CsvService csvService;
-    private final String filename;
-    private final Map<String, Music> musicMap = new HashMap<>();
-
+public class MusicService extends EventService<Music> {
     public MusicService(CsvService csvService, String filename) {
-        this.csvService = csvService;
-        this.filename = filename;
+        super(csvService, filename);
     }
 
     public void loadData() {
@@ -20,14 +15,14 @@ public class MusicService {
                 Music music = new Music(
                     record[0], record[1], record[2], record[3], record[4]
                 );
-                musicMap.put(record[0], music);
+                eventMap.put(record[0], music);
             }
         }
     }
 
     public void saveData() {
         List<String[]> data = new ArrayList<>();
-        for (Music music : musicMap.values()) {
+        for (Music music : eventMap.values()) {
             data.add(new String[]{
                 music.getCode(),
                 music.getTitle(),
@@ -45,9 +40,9 @@ public class MusicService {
     }
 
     public void addMusic(Music music) {
-        if (!musicMap.containsKey(music.getCode())) {
+        if (!eventMap.containsKey(music.getCode())) {
             try {
-            musicMap.put(music.getCode(), music);
+            eventMap.put(music.getCode(), music);
             System.out.println("Προστέθηκε επιτυχώς!"); 
         }
             catch (Exception e) {
@@ -58,8 +53,8 @@ public class MusicService {
 
     public void updateMusic(String code, String title, String singer, String location, String date) {
         try {
-        if (musicMap.containsKey(code)) {
-            Music music = musicMap.get(code);
+        if (eventMap.containsKey(code)) {
+            Music music = eventMap.get(code);
             music.setTitle(title);
             music.setSinger(singer);
             music.setLocation(location);
@@ -72,8 +67,8 @@ public class MusicService {
 
     public void deleteMusic(String code) {
         try {
-        if (musicMap.containsKey(code)) {
-            musicMap.remove(code);
+        if (eventMap.containsKey(code)) {
+            eventMap.remove(code);
             System.out.println("Διαγράφηκε επιτυχώς!");
         } 
         } catch (Exception e) {
@@ -82,10 +77,10 @@ public class MusicService {
     }
 
     public List<Music> getAllMusic() {
-        return new ArrayList<>(musicMap.values());
+        return new ArrayList<>(eventMap.values());
     }
 
     public Music getMusic(String code) {
-        return musicMap.get(code);
+        return eventMap.get(code);
     }
 }

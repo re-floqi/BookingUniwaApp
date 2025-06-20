@@ -3,14 +3,9 @@ package bookinguniwaapp.service;
 import bookinguniwaapp.core.Theater;
 import java.util.*;
 
-public class TheaterService {
-    private final CsvService csvService;
-    private final String filename;
-    private final Map<String, Theater> theaterMap = new HashMap<>();
-
+public class TheaterService extends EventService<Theater> {
     public TheaterService(CsvService csvService, String filename) {
-        this.csvService = csvService;
-        this.filename = filename;
+        super(csvService, filename);
     }
 
     public void loadData() {
@@ -21,7 +16,7 @@ public class TheaterService {
                 Theater theater = new Theater(
                     record[0], record[1], record[2], record[3], record[4]
                 );
-                theaterMap.put(record[0], theater);
+                eventMap.put(record[0], theater);
             }
         }
     }
@@ -32,7 +27,7 @@ public class TheaterService {
 
     public void saveData() {
         List<String[]> data = new ArrayList<>();
-        for (Theater theater : theaterMap.values()) {
+        for (Theater theater : eventMap.values()) {
             data.add(new String[]{
                 theater.getCode(),
                 theater.getTitle(),
@@ -46,8 +41,8 @@ public class TheaterService {
 
     public void addTheater(Theater theater) {
         try {
-        if (!theaterMap.containsKey(theater.getCode())) {
-            theaterMap.put(theater.getCode(), theater);
+        if (!eventMap.containsKey(theater.getCode())) {
+            eventMap.put(theater.getCode(), theater);
             System.out.println("Προστέθηκε επιτυχώς!");
         } }
         catch (Exception e) {
@@ -57,7 +52,7 @@ public class TheaterService {
 
     public void updateTheater(String code, String title, String protagonist, String location, String date) {
         try {
-            Theater theater = theaterMap.get(code);
+            Theater theater = eventMap.get(code);
             theater.setTitle(title);
             theater.setProtagonist(protagonist);
             theater.setLocation(location);
@@ -66,16 +61,12 @@ public class TheaterService {
         } catch (Exception e) {
             System.out.println("Σφάλμα κατά την ενημέρωση της θεατρικής παράστασης: " + e.getMessage());
         }
-
-        
     }
-
-    
 
     public void deleteTheater(String code) {
         try {
-        if (theaterMap.containsKey(code)) {
-            theaterMap.remove(code);
+        if (eventMap.containsKey(code)) {
+            eventMap.remove(code);
             System.out.println("Διαγράφηκε επιτυχώς!");
         } }
         catch (Exception e) {
@@ -84,10 +75,10 @@ public class TheaterService {
     }
 
     public List<Theater> getAllTheaters() {
-        return new ArrayList<>(theaterMap.values());
+        return new ArrayList<>(eventMap.values());
     }
 
     public Theater getTheater(String code) {
-        return theaterMap.get(code);
+        return eventMap.get(code);
     }
 }
