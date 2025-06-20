@@ -29,7 +29,6 @@ public class ClientService extends CrudService<Client> {
         }
         try {
             csvService.writeCsv(filename, data);
-            System.out.println("Τα δεδομένα αποθηκεύτηκαν επιτυχώς!");
         } catch (Exception e) {
             System.out.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
         }

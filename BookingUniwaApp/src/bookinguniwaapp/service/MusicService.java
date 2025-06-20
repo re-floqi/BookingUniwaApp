@@ -37,7 +37,6 @@ public class MusicService extends CrudService<Music> {
         }
         try {
             csvService.writeCsv(filename, data);
-            System.out.println("Η Αποθήκευση δεδομένων μουσικής επιτυχής!");
         } catch (Exception e) {
             System.out.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
         }

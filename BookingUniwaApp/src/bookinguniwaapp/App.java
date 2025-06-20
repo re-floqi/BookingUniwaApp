@@ -25,14 +25,15 @@ public class App {
     private static Scanner scanner;
 
     public static void main(String[] args) {
-        scanner = new Scanner(System.in); // ΠΡΩΤΑ το scanner
+        scanner = new Scanner(System.in); // ΠΡΩΤΑ το scanner 
         art(); // Εκτύπωση ASCII art
-        initializeServices();
-        loadData();
+        initializeServices(); // Αρχικοποίηση υπηρεσιών
+        loadData(); // Φόρτωση δεδομένων από τα CSV αρχεία
         sleep(3000); // delay 3 δευτερολέπτων για να δει ο χρήστης το μήνυμα για workingdirectory και τα δεδομένα που φορτώθηκαν
-        mainMenu();
-        saveData();
-        scanner.close();
+        mainMenu(); // Εμφάνιση κύριου μενού
+        saveData(); // Αποθήκευση δεδομένων πριν την έξοδο
+        scanner.close();    // Κλείσιμο του scanner
+        art(); // Εκτύπωση ASCII art
         System.out.println("Η εφαρμογή τερματίστηκε επιτυχώς!");
         sleep(2000);
     }
@@ -707,11 +708,11 @@ public static void clearConsole() { // Μέθοδος για καθαρισμό 
 }
 public static void art() {
         System.out.println();
-        System.out.println("   __  ___   _______       _____ ");sleep(300);
-        System.out.println("  / / / / | / /  _/ |     / /   |");sleep(300);
-        System.out.println(" / / / /  |/ // / | | /| / / /| |");sleep(300);
-        System.out.println("/ /_/ / /|  // /  | |/ |/ / ___ |");sleep(300);
-        System.out.println("\\____/_/ |_/___/  |__/|__/_/  |_|");sleep(300);
+        System.out.println("   __  ___   _______       _____ ");sleep(200);
+        System.out.println("  / / / / | / /  _/ |     / /   |");sleep(200);
+        System.out.println(" / / / /  |/ // / | | /| / / /| |");sleep(200);
+        System.out.println("/ /_/ / /|  // /  | |/ |/ / ___ |");sleep(200);
+        System.out.println("\\____/_/ |_/___/  |__/|__/_/  |_|");sleep(200);
 
 }
 }
