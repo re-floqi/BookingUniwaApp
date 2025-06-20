@@ -26,6 +26,7 @@ public class App {
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in); // ΠΡΩΤΑ το scanner 
+        clearConsole(); // Καθαρισμός κονσόλας για καθαρή εκκίνηση
         art(); // Εκτύπωση ASCII art
         initializeServices(); // Αρχικοποίηση υπηρεσιών
         loadData(); // Φόρτωση δεδομένων από τα CSV αρχεία
@@ -64,6 +65,8 @@ public class App {
         musicService.saveData();
         clientService.saveData();
         bookingService.saveData();
+        sleep(1000); // Καθυστέρηση 1 δευτερολέπτου για να δει ο χρήστης το μήνυμα αποθήκευσης
+        clearConsole(); // Καθαρισμός κονσόλας πριν την εκτύπωση του μηνύματος
         System.out.println("Όλα τα δεδομένα αποθηκεύτηκαν!"); // Μήνυμα επιβεβαίωσης αποθήκευσης
     }
 
