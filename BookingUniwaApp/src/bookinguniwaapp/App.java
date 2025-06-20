@@ -35,10 +35,11 @@ public class App {
         scanner.close();    // Κλείσιμο του scanner
         art(); // Εκτύπωση ASCII art
         System.out.println("Η εφαρμογή τερματίστηκε επιτυχώς!");
-        sleep(2000);
+        sleep(2000); // Καθυστέρηση 2 δευτερολέπτων πριν το κλείσιμο
     }
 
     // Αρχικοποίηση των υπηρεσιών
+    // Δημιουργεί αντικείμενα υπηρεσιών και φορτώνει τα δεδομένα από τα αντίστοιχα CSV αρχεία
     private static void initializeServices() {
         CsvService csvService = new CsvService();
         theaterService = new TheaterService(csvService, THEATER_FILE);
@@ -57,6 +58,7 @@ public class App {
     }   
 
     // Τελικη Αποθήκευση δεδομένων στα CSV αρχεία
+    // Αποθηκεύει όλα τα δεδομένα των υπηρεσιών στα αντίστοιχα CSV αρχεία
     private static void saveData() {
         theaterService.saveData();
         musicService.saveData();
@@ -98,8 +100,8 @@ public class App {
                 case 2 : manageMusic(); break;
                 case 3 : manageClients(); break;
                 case 4 : manageBookings(); break;
-                case 5 : System.out.println("Αποσύνδεση από το σύστημα..."); break;
-                default : System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5."); break;
+                case 5 : clearConsole(); System.out.println("Αποσύνδεση από το σύστημα..."); break;
+                default : System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5."); break; // Μη έγκυρη επιλογή
             }
         } while (choice != 5);
     }
