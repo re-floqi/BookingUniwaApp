@@ -8,6 +8,7 @@ import bookinguniwaapp.core.*;
 import bookinguniwaapp.service.*;
 import java.io.IOException;
 import java.util.*;
+// μελλοντικη αναγκη για επιβεβαιωση ημερομηνιας και φορματ
 
 public class App {
     // Ονόματα αρχείων CSV
