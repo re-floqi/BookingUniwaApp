@@ -37,7 +37,7 @@ public class App {
         scanner.close();    // Κλείσιμο του scanner
         art(); // Εκτύπωση ASCII art
         System.out.println("Η εφαρμογή τερματίστηκε επιτυχώς!");
-        sleep(2000); // Καθυστέρηση 2 δευτερολέπτων πριν το κλείσιμο
+        sleep(3000); // Καθυστέρηση 3 δευτερολέπτων πριν το κλείσιμο
     }
 
     // Αρχικοποίηση των υπηρεσιών
@@ -522,8 +522,7 @@ public class App {
     private static void manageBookings() {
         int choice;
         do {
-            clearConsole();
-            clearConsole();
+            clearConsole(); // Καθαρισμός κονσόλας για καθαρή εμφάνιση
             System.out.println("== [Διαχείριση Κρατήσεων & Στατιστικά] ==");
             System.out.println("1. Κράτηση Θεατρικής Παράστασης");
             System.out.println("2. Κράτηση Μουσικής Παράστασης");
