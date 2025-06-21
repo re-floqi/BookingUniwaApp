@@ -4,20 +4,22 @@ import java.io.*;
 import java.util.*;
 
 public class CsvService {
-    private static final String DATA_DIR = "data";
+    private final String dataDir;
 
-    public CsvService() {
-        // Δημιουργία φακέλου δεδομένων "data" αν δεν υπάρχει
-        File dataDir = new File(DATA_DIR);
-        if (!dataDir.exists()) {
-            dataDir.mkdir();
+    public CsvService(String dataDir) {
+        this.dataDir = dataDir;
+        // Δημιουργία φακέλου δεδομένων αν δεν υπάρχει
+        File dir = new File(dataDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
         System.out.println("Working directory: " + System.getProperty("user.dir"));
+        System.out.println("Data directory: " + dataDir);
     }
 
     public List<String[]> readCsv(String filename) {
         List<String[]> records = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(DATA_DIR + File.separator + filename))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(dataDir + File.separator + filename))) {
             String line;
             while ((line = br.readLine()) != null) {
                 records.add(line.split(","));
@@ -29,12 +31,12 @@ public class CsvService {
     }
 
     public void writeCsv(String filename, List<String[]> data) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(DATA_DIR + File.separator + filename))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(dataDir + File.separator + filename))) {
             for (String[] record : data) {
                 bw.write(String.join(",", record));
                 bw.newLine();
             }
-            System.out.println("Τα δεδομένα αποθηκεύτηκαν επιτυχώς στο αρχείο: " + filename);
+            // System.out.println("Τα δεδομένα αποθηκεύτηκαν επιτυχώς στο αρχείο: " + filename);
         } catch (FileNotFoundException e) {
             System.out.println("Το αρχείο δεν βρέθηκε: " + e.getMessage());
         } catch (SecurityException e) {
