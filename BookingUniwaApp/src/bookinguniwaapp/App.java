@@ -12,10 +12,10 @@ import java.util.*;
 
 public class App {
     // Ονόματα αρχείων CSV
-    private static final String THEATER_FILE = "theater.csv";
-    private static final String MUSIC_FILE = "music.csv";
-    private static final String CLIENT_FILE = "client.csv";
-    private static final String BOOKING_FILE = "bookings.csv";
+    private static final String THEATER_FILE = "../data/theater.csv";
+    private static final String MUSIC_FILE = "../data/music.csv";
+    private static final String CLIENT_FILE = "../data/client.csv";
+    private static final String BOOKING_FILE = "../data/bookings.csv";
     
     // Υπηρεσίες εφαρμογής
     private static TheaterService theaterService;
