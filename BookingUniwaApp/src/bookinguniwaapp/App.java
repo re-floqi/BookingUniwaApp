@@ -43,7 +43,7 @@ public class App {
     // Αρχικοποίηση των υπηρεσιών
     // Δημιουργεί αντικείμενα υπηρεσιών και φορτώνει τα δεδομένα από τα αντίστοιχα CSV αρχεία
     private static void initializeServices() {
-        CsvService csvService = new CsvService();
+        CsvService csvService = new CsvService(DATA_DIR);
         theaterService = new TheaterService(csvService, THEATER_FILE);
         musicService = new MusicService(csvService, MUSIC_FILE);
         clientService = new ClientService(csvService, CLIENT_FILE);
