@@ -26,10 +26,13 @@ public class App {
     private static Scanner scanner;
 
     public static void main(String[] args) {
+        String dataDir = args.length > 0 ? args[0] : "data";
+        CsvService csvService = new CsvService(dataDir);
+        
         scanner = new Scanner(System.in); // ΠΡΩΤΑ το scanner 
         clearConsole(); // Καθαρισμός κονσόλας για καθαρή εκκίνηση
         art(); // Εκτύπωση ASCII art
-        initializeServices(); // Αρχικοποίηση υπηρεσιών
+        initializeServices(csvService); // Αρχικοποίηση υπηρεσιών
         loadData(); // Φόρτωση δεδομένων από τα CSV αρχεία
         sleep(3000); // delay 3 δευτερολέπτων για να δει ο χρήστης το μήνυμα για workingdirectory και τα δεδομένα που φορτώθηκαν
         mainMenu(); // Εμφάνιση κύριου μενού
@@ -42,8 +45,7 @@ public class App {
 
     // Αρχικοποίηση των υπηρεσιών
     // Δημιουργεί αντικείμενα υπηρεσιών και φορτώνει τα δεδομένα από τα αντίστοιχα CSV αρχεία
-    private static void initializeServices() {
-        CsvService csvService = new CsvService();
+    private static void initializeServices(CsvService csvService) {
         theaterService = new TheaterService(csvService, THEATER_FILE);
         musicService = new MusicService(csvService, MUSIC_FILE);
         clientService = new ClientService(csvService, CLIENT_FILE);
