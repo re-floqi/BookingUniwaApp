@@ -35,7 +35,7 @@
 
 2. **Κλωνοποίηση**:
    ```bash
-   git clone https://github.com/username/BookingUniwaApp.git
+   git clone https://github.com/re-floqi/BookingUniwaApp.git
    ```
 
 3. **Εκτέλεση**:
