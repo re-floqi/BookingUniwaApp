@@ -1,24 +1,25 @@
  package bookinguniwaapp.service;
 
+import bookinguniwaapp.core.BaseEntity;
 import bookinguniwaapp.core.Booking;
+import bookinguniwaapp.exception.SingletonInitializationException;
+
 import java.util.*;
 
 public class BookingService {
     private final CsvService csvService;
-    private final String filename;
     private final List<Booking> bookings = new ArrayList<>();
 
-    public BookingService(CsvService csvService, String filename) {
-        this.csvService = csvService;
-        this.filename = filename;
+    public BookingService() throws SingletonInitializationException {
+        this.csvService = CsvService.getInstance(Booking.class);
     }
 
     public void loadData() {
-        List<String[]> records = csvService.readCsv(filename);
+        List<String[]> records = csvService.readCsv();
         for (String[] record : records) {
             if (record.length >= 3) {
                 try {
-                bookings.add(new Booking(record[0], record[1], record[2]));
+                bookings.add(new Booking(Long.valueOf(record[0]), record[1], record[2], record[3]));
             } catch (Exception e) {
                 System.out.println("Σφάλμα κατά την ανάγνωση της κράτησης: " + e.getMessage());
             }
@@ -30,13 +31,14 @@ public class BookingService {
         List<String[]> data = new ArrayList<>();
         for (Booking booking : bookings) {
             data.add(new String[]{
+                String.valueOf(booking.getId()),
                 booking.getClientCode(),
                 booking.getEventCode(),
                 booking.getEventType()
             });
         }
         try {
-        csvService.writeCsv(filename, data); }
+        csvService.writeCsv(data); }
         catch (Exception e) {
             System.out.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
         }

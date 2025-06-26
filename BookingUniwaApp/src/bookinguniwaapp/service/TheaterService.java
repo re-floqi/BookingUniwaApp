@@ -1,19 +1,19 @@
 package bookinguniwaapp.service;
 
 import bookinguniwaapp.core.Theater;
+import bookinguniwaapp.exception.SingletonInitializationException;
+
 import java.util.*;
 
 public class TheaterService extends CrudService<Theater> {
     private final CsvService csvService;
-    private final String filename;
 
-    public TheaterService(CsvService csvService, String filename) {
-        this.csvService = csvService;
-        this.filename = filename;
+    public TheaterService() throws SingletonInitializationException {
+        this.csvService = CsvService.getInstance(Theater.class);
     }
 
     public void loadData() {
-        List<String[]> records = csvService.readCsv(filename);
+        List<String[]> records = csvService.readCsv();
         try {
             for (String[] record : records) {
                 if (record.length >= 5) {
@@ -32,6 +32,7 @@ public class TheaterService extends CrudService<Theater> {
         List<String[]> data = new ArrayList<>();
         for (Theater theater : entityMap.values()) {
             data.add(new String[]{
+                String.valueOf(theater.getId()),
                 theater.getCode(),
                 theater.getTitle(),
                 theater.getProtagonist(),
@@ -39,6 +40,6 @@ public class TheaterService extends CrudService<Theater> {
                 theater.getDate()
             });
         }
-        csvService.writeCsv(filename, data);
+        csvService.writeCsv(data);
     }
 }

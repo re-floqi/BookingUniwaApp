@@ -1,22 +1,22 @@
 package bookinguniwaapp.service;
 
 import bookinguniwaapp.core.Client;
+import bookinguniwaapp.exception.SingletonInitializationException;
+
 import java.util.*;
 
 public class ClientService extends CrudService<Client> {
     private final CsvService csvService;
-    private final String filename;
 
-    public ClientService(CsvService csvService, String filename) {
-        this.csvService = csvService;
-        this.filename = filename;
+    public ClientService() throws SingletonInitializationException {
+        this.csvService = CsvService.getInstance(Client.class);
     }
 
     public void loadData() {
-        List<String[]> records = csvService.readCsv(filename);
+        List<String[]> records = csvService.readCsv();
         for (String[] record : records) {
             if (record.length >= 2) {
-                Client client = new Client(record[0], record[1]);
+                Client client = new Client(Long.valueOf(record[0]), record[1], record[2]);
                 entityMap.put(record[0], client);
             }
         }
@@ -28,7 +28,7 @@ public class ClientService extends CrudService<Client> {
             data.add(new String[]{client.getCode(), client.getName()});
         }
         try {
-            csvService.writeCsv(filename, data);
+            csvService.writeCsv(data);
         } catch (Exception e) {
             System.out.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
         }

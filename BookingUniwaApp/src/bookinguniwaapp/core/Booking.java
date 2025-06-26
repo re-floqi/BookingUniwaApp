@@ -1,11 +1,13 @@
 package bookinguniwaapp.core;
 
-public class Booking {
+public class Booking extends BaseEntity {
     private String clientCode;
     private String eventCode;
     private String eventType; // "THEATER" or "MUSIC"
 
-    public Booking(String clientCode, String eventCode, String eventType) {
+    public Booking(Long id, String clientCode, String eventCode, String eventType) {
+        super();
+        super.setId(id);
         this.clientCode = clientCode;
         this.eventCode = eventCode;
         this.eventType = eventType;

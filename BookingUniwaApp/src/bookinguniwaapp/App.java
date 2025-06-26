@@ -5,6 +5,7 @@
 package bookinguniwaapp;
 
 import bookinguniwaapp.core.*;
+import bookinguniwaapp.exception.SingletonInitializationException;
 import bookinguniwaapp.service.*;
 import java.io.IOException;
 import java.util.*;
@@ -12,11 +13,10 @@ import java.util.*;
 
 public class App {
     // Ονόματα αρχείων CSV
-    private static final String DATA_DIR = "../../data/";
-    private static final String THEATER_FILE = DATA_DIR + "theater.csv";
-    private static final String MUSIC_FILE = DATA_DIR + "music.csv";
-    private static final String CLIENT_FILE = DATA_DIR + "client.csv";
-    private static final String BOOKING_FILE = DATA_DIR + "bookings.csv";
+    private static final String THEATER_FILE = "theater.csv";
+    private static final String MUSIC_FILE = "music.csv";
+    private static final String CLIENT_FILE =  "client.csv";
+    private static final String BOOKING_FILE = "bookings.csv";
     
     // Υπηρεσίες εφαρμογής
     private static TheaterService theaterService;
@@ -25,7 +25,7 @@ public class App {
     private static BookingService bookingService;
     private static Scanner scanner;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SingletonInitializationException {
         scanner = new Scanner(System.in); // ΠΡΩΤΑ το scanner 
         clearConsole(); // Καθαρισμός κονσόλας για καθαρή εκκίνηση
         art(); // Εκτύπωση ASCII art
@@ -42,12 +42,11 @@ public class App {
 
     // Αρχικοποίηση των υπηρεσιών
     // Δημιουργεί αντικείμενα υπηρεσιών και φορτώνει τα δεδομένα από τα αντίστοιχα CSV αρχεία
-    private static void initializeServices() {
-        CsvService csvService = new CsvService(DATA_DIR);
-        theaterService = new TheaterService(csvService, THEATER_FILE);
-        musicService = new MusicService(csvService, MUSIC_FILE);
-        clientService = new ClientService(csvService, CLIENT_FILE);
-        bookingService = new BookingService(csvService, BOOKING_FILE);
+    private static void initializeServices() throws SingletonInitializationException {
+        theaterService = new TheaterService();
+        musicService = new MusicService();
+        clientService = new ClientService();
+        bookingService = new BookingService();
     }
 
     // Φόρτωμα δεδομένων από τα CSV αρχεία
@@ -441,7 +440,7 @@ public class App {
         System.out.print("Όνοματεπώνυμο: ");
         String name = scanner.nextLine();
 
-        clientService.add(code, new Client(code, name));
+        clientService.add(code, new Client(new Random().nextLong(), code, name));
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
@@ -468,7 +467,7 @@ public class App {
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         System.out.print("Νέο όνοματεπώνυμο: ");
         String name = scanner.nextLine();
-        clientService.update(code, new Client(code, name));
+        clientService.update(code, new Client(new Random().nextLong(), code, name));
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
@@ -589,7 +588,7 @@ public class App {
         }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         
-        bookingService.addBooking(new Booking(clientCode, eventCode, "THEATER"));
+        bookingService.addBooking(new Booking(new Random().nextLong(), clientCode, eventCode, "THEATER"));
         System.out.println("Εγινε κρατηση για την παράσταση: " + theaterService.get(eventCode).getTitle() + " για τον πελάτη: " + clientService.get(clientCode).getName());
         bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
@@ -640,7 +639,7 @@ public class App {
                 eventCode = scanner.nextLine();
         }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
-        bookingService.addBooking(new Booking(clientCode, eventCode, "MUSIC"));
+        bookingService.addBooking(new Booking(new Random().nextLong(), clientCode, eventCode, "MUSIC"));
         System.out.println("Εγινε κρατηση για την παράσταση: " + musicService.get(eventCode).getTitle() + " για τον πελάτη: " + clientService.get(clientCode).getName());
         bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα

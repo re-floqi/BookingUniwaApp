@@ -1,19 +1,19 @@
 package bookinguniwaapp.service;
 
 import bookinguniwaapp.core.Music;
+import bookinguniwaapp.exception.SingletonInitializationException;
+
 import java.util.*;
 
 public class MusicService extends CrudService<Music> {
     private final CsvService csvService;
-    private final String filename;
 
-    public MusicService(CsvService csvService, String filename) {
-        this.csvService = csvService;
-        this.filename = filename;
+    public MusicService() throws SingletonInitializationException {
+        this.csvService = CsvService.getInstance(Music.class);
     }
 
     public void loadData() {
-        List<String[]> records = csvService.readCsv(filename);
+        List<String[]> records = csvService.readCsv();
         for (String[] record : records) {
             if (record.length >= 5) {
                 Music music = new Music(
@@ -28,6 +28,7 @@ public class MusicService extends CrudService<Music> {
         List<String[]> data = new ArrayList<>();
         for (Music music : entityMap.values()) {
             data.add(new String[]{
+                String.valueOf(music.getId()),
                 music.getCode(),
                 music.getTitle(),
                 music.getSinger(),
@@ -36,7 +37,7 @@ public class MusicService extends CrudService<Music> {
             });
         }
         try {
-            csvService.writeCsv(filename, data);
+            csvService.writeCsv(data);
         } catch (Exception e) {
             System.out.println("Σφάλμα κατά την αποθήκευση των δεδομένων: " + e.getMessage());
         }
