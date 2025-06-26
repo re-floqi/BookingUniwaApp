@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="BookingUniwaApp">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/BookingUniwaApp/dist/BookingUniwaApp.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
