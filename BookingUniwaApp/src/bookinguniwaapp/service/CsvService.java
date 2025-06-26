@@ -10,7 +10,7 @@ import java.util.*;
 public class CsvService {
 
     private static volatile CsvService INSTANCE;
-    private static final String DATA_FOLDER = "data";
+    private static final String DATA_FOLDER = "resources/data";
     private final URL resourceUrl;
     private static volatile Class<? extends BaseEntity> selectedClazz;
     private volatile String fileName;
@@ -50,11 +50,11 @@ public class CsvService {
      * Διαβάζει ένα αρχείο CSV.
      * @return Μια λίστα με τα δεδομένα του αρχείου.
      */
-    public List<String[]> readCsv() {
+    public synchronized List<String[]> readCsv() {
         List<String[]> data = new ArrayList<>();
-        File file = new File(resourceUrl.getPath() + this.fileName);
+        File file = new File(resourceUrl.getPath() + "/" + this.fileName + ".csv");
         if (!file.exists()) {
-            System.err.println("Warning: Cannot read file because it was not found: " + resourceUrl.getPath());
+            System.err.println("Warning: Cannot read file because it was not found: " + resourceUrl.getPath() + "/" + this.fileName + ".csv");
             return data;
         }
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -74,7 +74,7 @@ public class CsvService {
      * Γράφει δεδομένα σε ένα αρχείο CSV.
      * @param data Τα δεδομένα προς εγγραφή.
      */
-    public void writeCsv(List<String[]> data) {
+    public synchronized void writeCsv(List<String[]> data) {
         File file = new File(resourceUrl.getPath() + fileName);
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (String[] row : data) {

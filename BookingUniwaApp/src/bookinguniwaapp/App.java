@@ -12,11 +12,6 @@ import java.util.*;
 // μελλοντική ανάγκη για επιβεβαίωση ημερομηνίας και φορμάτ
 
 public class App {
-    // Ονόματα αρχείων CSV
-    private static final String THEATER_FILE = "theater.csv";
-    private static final String MUSIC_FILE = "music.csv";
-    private static final String CLIENT_FILE =  "client.csv";
-    private static final String BOOKING_FILE = "bookings.csv";
     
     // Υπηρεσίες εφαρμογής
     private static TheaterService theaterService;
