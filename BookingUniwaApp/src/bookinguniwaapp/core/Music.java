@@ -1,6 +1,5 @@
 package bookinguniwaapp.core;
 
-import java.util.Random;
 
 public class Music extends Event {
     private String singer;

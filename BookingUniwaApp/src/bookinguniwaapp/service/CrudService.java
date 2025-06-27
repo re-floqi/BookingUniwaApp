@@ -1,5 +1,7 @@
 package bookinguniwaapp.service;
 
+import bookinguniwaapp.core.BaseEntity;
+
 import java.util.*;
 
 /**
@@ -7,7 +9,7 @@ import java.util.*;
  * Παρέχει βασικές μεθόδους προσθήκης, ενημέρωσης, διαγραφής, αναζήτησης και λίστας.
  * @param <T> Ο τύπος της οντότητας
  */
-public abstract class CrudService<T> {
+public abstract class CrudService<T extends BaseEntity> {
     // Χάρτης που αποθηκεύει τις οντότητες με βάση τον κωδικό τους
     protected final Map<String, T> entityMap = new HashMap<>();
 

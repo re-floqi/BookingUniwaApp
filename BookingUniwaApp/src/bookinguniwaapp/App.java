@@ -7,12 +7,15 @@ package bookinguniwaapp;
 import bookinguniwaapp.core.*;
 import bookinguniwaapp.exception.SingletonInitializationException;
 import bookinguniwaapp.service.*;
+
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 // μελλοντική ανάγκη για επιβεβαίωση ημερομηνίας και φορμάτ
 
 public class App {
-    
+
     // Υπηρεσίες εφαρμογής
     private static TheaterService theaterService;
     private static MusicService musicService;
@@ -51,7 +54,7 @@ public class App {
         clientService.loadData();
         bookingService.loadData();
         System.out.println("Τα αρχικά δεδομένα φορτώθηκαν επιτυχώς!"); // Μήνυμα επιβεβαίωσης φόρτωσης
-    }   
+    }
 
     // Τελικη Αποθήκευση δεδομένων στα CSV αρχεία
     // Αποθηκεύει όλα τα δεδομένα των υπηρεσιών στα αντίστοιχα CSV αρχεία
@@ -72,10 +75,11 @@ public class App {
     }
 
     public static void sleep(long millis) { // Μέθοδος για καθυστέρηση εκτέλεσης
-    try {
-        Thread.sleep(millis);
-    } catch (InterruptedException ignored) {}
-}
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ignored) {
+        }
+    }
 
     // Κύριο μενού εφαρμογής
     private static void mainMenu() {
@@ -89,17 +93,30 @@ public class App {
             System.out.println("4. Διαχείριση Κρατήσεων & Στατιστικά");
             System.out.println("5. Έξοδος");
             System.out.print("Επιλέξτε λειτουργία: ");
-            
+
             choice = scanner.nextInt();
             scanner.nextLine();  // Καθαρισμός buffer
-            
+
             switch (choice) {
-                case 1 : manageTheater(); break;
-                case 2 : manageMusic(); break;
-                case 3 : manageClients(); break;
-                case 4 : manageBookings(); break;
-                case 5 : clearConsole(); System.out.println("Αποσύνδεση από το σύστημα..."); break;
-                default : System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5."); break; // Μη έγκυρη επιλογή
+                case 1:
+                    manageTheater();
+                    break;
+                case 2:
+                    manageMusic();
+                    break;
+                case 3:
+                    manageClients();
+                    break;
+                case 4:
+                    manageBookings();
+                    break;
+                case 5:
+                    clearConsole();
+                    System.out.println("Αποσύνδεση από το σύστημα...");
+                    break;
+                default:
+                    System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5.");
+                    break; // Μη έγκυρη επιλογή
             }
         } while (choice != 5);
     }
@@ -116,23 +133,35 @@ public class App {
             System.out.println("4. Προβολή Όλων των Παραστάσεων");
             System.out.println("5. Επιστροφή στο Κύριο Μενού");
             System.out.print("Επιλέξτε λειτουργία: ");
-            
+
             choice = scanner.nextInt();
             scanner.nextLine();
-            
+
             switch (choice) {
-                case 1 : addTheater(); break;
-                case 2 : updateTheater(); break;
-                case 3 : deleteTheater(); break;
-                case 4 : showAllTheaters(); break;
-                case 5 : System.out.println("Επιστροφή στο κύριο μενού..."); break;
-                default: System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5."); break;
+                case 1:
+                    addTheater();
+                    break;
+                case 2:
+                    updateTheater();
+                    break;
+                case 3:
+                    deleteTheater();
+                    break;
+                case 4:
+                    showAllTheaters();
+                    break;
+                case 5:
+                    System.out.println("Επιστροφή στο κύριο μενού...");
+                    break;
+                default:
+                    System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5.");
+                    break;
             }
         } while (choice != 5);
     }
 
     // Γενική μέθοδος αναζήτησης βάσει κωδικού για όλες τις οντότητες
-    public static <T> boolean searchByCode(CrudService<T> service, String code) {
+    public static <T extends BaseEntity> boolean searchByCode(CrudService<T> service, String code) {
         return service.exists(code);
     }
 
@@ -243,12 +272,15 @@ public class App {
             pause();
         }
     }
+
     public static boolean searchByCodeTheater(String code) {
         return searchByCode(theaterService, code);
     }
+
     public static boolean searchByCodeMusic(String code) {
         return searchByCode(musicService, code);
     }
+
     public static boolean searchByCodeClient(String code) {
         return searchByCode(clientService, code);
     }
@@ -265,17 +297,29 @@ public class App {
             System.out.println("4. Προβολή Όλων των Παραστάσεων");
             System.out.println("5. Επιστροφή στο Κύριο Μενού");
             System.out.print("Επιλέξτε λειτουργία: ");
-            
+
             choice = scanner.nextInt();
             scanner.nextLine();
-            
+
             switch (choice) {
-                case 1: addMusic(); break;
-                case 2: updateMusic(); break;
-                case 3: deleteMusic(); break;
-                case 4: showAllMusic(); break;
-                case 5: System.out.println("Επιστροφή στο κύριο μενού..."); break;
-                default: System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5."); break;
+                case 1:
+                    addMusic();
+                    break;
+                case 2:
+                    updateMusic();
+                    break;
+                case 3:
+                    deleteMusic();
+                    break;
+                case 4:
+                    showAllMusic();
+                    break;
+                case 5:
+                    System.out.println("Επιστροφή στο κύριο μενού...");
+                    break;
+                default:
+                    System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5.");
+                    break;
             }
         } while (choice != 5);
     }
@@ -305,7 +349,7 @@ public class App {
         String location = scanner.nextLine();
         System.out.print("Ημερομηνία (YYYY-MM-DD): ");
         String date = scanner.nextLine();
-        musicService.add(code, new Music( code, title, singer, location, date));
+        musicService.add(code, new Music(code, title, singer, location, date));
         musicService.saveData();
         pause();
     }
@@ -397,17 +441,29 @@ public class App {
             System.out.println("4. Προβολή Όλων των Πελατών");
             System.out.println("5. Επιστροφή στο Κύριο Μενού");
             System.out.print("Επιλέξτε λειτουργία: ");
-            
+
             choice = scanner.nextInt();
             scanner.nextLine(); // Καθαρισμός buffer
-            
+
             switch (choice) {
-                case 1: addClient(); break;
-                case 2: updateClient(); break;
-                case 3: deleteClient(); break;
-                case 4: showAllClients(); break;
-                case 5: System.out.println("Επιστροφή στο κύριο μενού..."); break;
-                default: System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5."); break;
+                case 1:
+                    addClient();
+                    break;
+                case 2:
+                    updateClient();
+                    break;
+                case 3:
+                    deleteClient();
+                    break;
+                case 4:
+                    showAllClients();
+                    break;
+                case 5:
+                    System.out.println("Επιστροφή στο κύριο μενού...");
+                    break;
+                default:
+                    System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5.");
+                    break;
             }
         } while (choice != 5);
     }
@@ -419,14 +475,13 @@ public class App {
         String code = scanner.nextLine();
         do {
             if (code.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την εγγραφή.");
-            return;
+                System.out.println("Έξοδος από την εγγραφή.");
+                return;
             }
 
             if (!searchByCode(clientService, code)) {
-            break;  // Βγες από το loop αν δεν βρεθεί πελάτης
-            }
-                else {
+                break;  // Βγες από το loop αν δεν βρεθεί πελάτης
+            } else {
                 System.out.println("Υπάρχει ήδη πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
                 System.out.println("Εισάγετε νεο κωδικό πελάτη: ");
                 code = scanner.nextLine();
@@ -447,14 +502,13 @@ public class App {
         String code = scanner.nextLine();
         do {
             if (code.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την ενημέρωση.");
-            return;
+                System.out.println("Έξοδος από την ενημέρωση.");
+                return;
             }
 
             if (searchByCode(clientService, code)) {
-            break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
-            }
-                else {
+                break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
+            } else {
                 System.out.println("Δεν βρέθηκε πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
                 System.out.println("Εισάγετε κωδικό πελάτη: ");
                 code = scanner.nextLine();
@@ -474,14 +528,13 @@ public class App {
         String code = scanner.nextLine();
         do {
             if (code.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την διαγραφή.");
-            return;
+                System.out.println("Έξοδος από την διαγραφή.");
+                return;
             }
 
             if (searchByCode(clientService, code)) {
-            break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
-            }
-                else {
+                break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
+            } else {
                 System.out.println("Δεν υπάρχει ήδη πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
                 System.out.println("Εισάγετε νεο κωδικό πελάτη: ");
                 code = scanner.nextLine();
@@ -496,7 +549,7 @@ public class App {
         clearConsole();
         System.out.println("========= [Κατάλογος Πελατών] =========");
         List<Client> clients = clientService.getAll();
-        
+
         if (clients.isEmpty()) {
             System.out.println("Δεν βρέθηκαν εγγεγραμμένοι πελάτες.");
             pause(); // Παύση για να δει ο χρήστης το μήνυμα
@@ -524,23 +577,35 @@ public class App {
             System.out.println("4. Στατιστικά Μουσικών Παραστάσεων");
             System.out.println("5. Επιστροφή στο Κύριο Μενού");
             System.out.print("Επιλέξτε λειτουργία: ");
-            
+
             choice = scanner.nextInt();
             scanner.nextLine(); // Καθαρισμός buffer
-            
+
             switch (choice) {
-                case 1: bookTheater(); break;
-                case 2: bookMusic(); break;
-                case 3: showTheaterStats(); break;
-                case 4: showMusicStats(); break;
-                case 5: System.out.println("Επιστροφή στο κύριο μενού..."); break;
-                default: System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5."); break;
+                case 1:
+                    bookTheater();
+                    break;
+                case 2:
+                    bookMusic();
+                    break;
+                case 3:
+                    showTheaterStats();
+                    break;
+                case 4:
+                    showMusicStats();
+                    break;
+                case 5:
+                    System.out.println("Επιστροφή στο κύριο μενού...");
+                    break;
+                default:
+                    System.out.println("Μη έγκυρη επιλογή! Παρακαλώ επιλέξτε 1-5.");
+                    break;
             }
         } while (choice != 5);
     }
 
     // Κράτηση θεατρικής παράστασης
-    private static void bookTheater() { 
+    private static void bookTheater() {
         clearConsole();
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
         System.out.print("Κωδικός Κράτησης: ");
@@ -548,20 +613,19 @@ public class App {
         System.out.print("Κωδικός Πελάτη: ");
         String clientCode = scanner.nextLine();
 
-       do { // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
+        do { // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
             if (clientCode.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την κράτηση.");
-            return;
+                System.out.println("Έξοδος από την κράτηση.");
+                return;
             }
             if (clientCode.equalsIgnoreCase("NEW")) { // κλήση για προσθήκη νέου πελάτη
-            addClient() ;
-            return;
+                addClient();
+                return;
             }
 
             if (searchByCode(clientService, clientCode)) {
-            break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
-            }
-                else {
+                break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
+            } else {
                 System.out.println("Δεν υπάρχει  πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο. ή NEW για προσθήκη νέου πελάτη.");
                 System.out.println("Εισάγετε νεο κωδικό πελάτη: ");
                 clientCode = scanner.nextLine();
@@ -571,20 +635,19 @@ public class App {
         String eventCode = scanner.nextLine();
         do {
             if (eventCode.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την κράτηση.");
-            return;
+                System.out.println("Έξοδος από την κράτηση.");
+                return;
             }
 
             if (searchByCode(theaterService, eventCode)) {
-            break;  // Βγήκε από το loop αν βρεθεί το θέατρο
-            }
-            else {
+                break;  // Βγήκε από το loop αν βρεθεί το θέατρο
+            } else {
                 System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
                 System.out.println("Εισάγετε κωδικό παραστάσης: ");
                 eventCode = scanner.nextLine();
-        }
+            }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
-        
+
         bookingService.addBooking(new Booking(code, clientCode, eventCode, "THEATER"));
         System.out.println("Εγινε κρατηση για την παράσταση: " + theaterService.get(eventCode).getTitle() + " για τον πελάτη: " + clientService.get(clientCode).getName());
         bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
@@ -600,26 +663,25 @@ public class App {
         System.out.print("Κωδικός Πελάτη: ");
         String clientCode = scanner.nextLine();
 
-       do { // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
+        do { // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
             if (clientCode.equalsIgnoreCase("EXIT")) {
-            System.out.println("Έξοδος από την κράτηση.");
-            return;
+                System.out.println("Έξοδος από την κράτηση.");
+                return;
             }
             if (clientCode.equalsIgnoreCase("NEW")) { // κλήση για προσθήκη νέου πελάτη
-            addClient() ;
-            return;
+                addClient();
+                return;
             }
 
             if (searchByCode(clientService, clientCode)) {
-            break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
-            }
-                else {
+                break;  // Βγήκε από το loop αν βρεθεί ο πελάτης
+            } else {
                 System.out.println("Δεν υπάρχει  πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο. ή NEW για προσθήκη νέου πελάτη.");
                 System.out.println("Εισάγετε νεο κωδικό πελάτη: ");
                 clientCode = scanner.nextLine();
             }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
-        
+
         System.out.print("Κωδικός Παράστασης: ");
         String eventCode = scanner.nextLine();
 
@@ -627,16 +689,15 @@ public class App {
             if (eventCode.equalsIgnoreCase("EXIT")) {
                 System.out.println("Έξοδος από την κράτηση.");
                 return;
-                }
+            }
 
             if (searchByCodeMusic(eventCode)) {
                 break;  // Βγήκε από το loop αν βρεθεί το θέατρο
-            }
-            else {
+            } else {
                 System.out.println("Δεν βρέθηκε θεατρική παράσταση με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
                 System.out.println("Εισάγετε κωδικό παραστάσης: ");
                 eventCode = scanner.nextLine();
-        }
+            }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         bookingService.addBooking(new Booking(code, clientCode, eventCode, "MUSIC"));
         System.out.println("Εγινε κρατηση για την παράσταση: " + musicService.get(eventCode).getTitle() + " για τον πελάτη: " + clientService.get(clientCode).getName());
@@ -649,7 +710,7 @@ public class App {
         clearConsole();
         System.out.println("== [Στατιστικά Θεατρικών Παραστάσεων] ==");
         Map<String, Integer> stats = bookingService.getTheaterStatistics();
-        
+
         if (stats.isEmpty()) {
             System.out.println("Δεν υπάρχουν κρατήσεις για θεατρικές παραστάσεις.");
         } else {
@@ -657,8 +718,8 @@ public class App {
             for (Map.Entry<String, Integer> entry : stats.entrySet()) {
                 Theater theater = theaterService.get(entry.getKey());
                 if (theater != null) {
-                    System.out.printf("- %s: %s: %d κρατήσεις%n", 
-                        theater.getCode(), theater.getTitle(), entry.getValue());
+                    System.out.printf("- %s: %s: %d κρατήσεις%n",
+                            theater.getCode(), theater.getTitle(), entry.getValue());
                 }
             }
             System.out.println("Σύνολο κρατήσεων: " + stats.values().stream().mapToInt(Integer::intValue).sum());
@@ -671,7 +732,7 @@ public class App {
         clearConsole();
         System.out.println("\n--- Στατιστικά Μουσικών Παραστάσεων ---");
         Map<String, Integer> stats = bookingService.getMusicStatistics();
-        
+
         if (stats.isEmpty()) {
             System.out.println("Δεν υπάρχουν κρατήσεις για μουσικές παραστάσεις.");
         } else {
@@ -679,43 +740,50 @@ public class App {
             for (Map.Entry<String, Integer> entry : stats.entrySet()) {
                 Music music = musicService.get(entry.getKey());
                 if (music != null) {
-                    System.out.printf("- %s: %s: %d κρατήσεις%n", 
-                        music.getCode(), music.getTitle(), entry.getValue());
+                    System.out.printf("- %s: %s: %d κρατήσεις%n",
+                            music.getCode(), music.getTitle(), entry.getValue());
                 }
             }
             System.out.println("Σύνολο κρατήσεων: " + stats.values().stream().mapToInt(Integer::intValue).sum());
         }
         pause(); // Παύση για να δει ο χρήστης τα στατιστικά
     }
-public static void clearConsole() { // Μέθοδος για καθαρισμό κονσόλας συνδυασμός ANSI escape codes και ProcessBuilder
-    try {
-        // Αν δεν υπάρχει κονσόλα (π.χ. IDE), απλώς τυπώνουμε κενές γραμμές
-        if (System.console() == null) {
-            for (int i = 0; i < 50; i++) System.out.println();
-            return;
+
+    public static void clearConsole() { // Μέθοδος για καθαρισμό κονσόλας συνδυασμός ANSI escape codes και ProcessBuilder
+        try {
+            // Αν δεν υπάρχει κονσόλα (π.χ. IDE), απλώς τυπώνουμε κενές γραμμές
+            if (System.console() == null) {
+                for (int i = 0; i < 50; i++) System.out.println();
+                return;
+            }
+
+            String os = System.getProperty("os.name").toLowerCase();
+            ProcessBuilder pb = os.contains("win")
+                    ? new ProcessBuilder("cmd", "/c", "cls")
+                    : new ProcessBuilder("clear");   // σε Linux/macOS/Unix
+
+            pb.inheritIO().start().waitFor();
+        } catch (IOException | InterruptedException ex) {
+            // Επαναφέρουμε το interrupt flag αν διακοπεί το νήμα
+            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+            // Fallback: ANSI escape – δουλεύει στους περισσότερους emulators
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
         }
+    }
 
-        String os = System.getProperty("os.name").toLowerCase();
-        ProcessBuilder pb = os.contains("win")
-                ? new ProcessBuilder("cmd", "/c", "cls")
-                : new ProcessBuilder("clear");   // σε Linux/macOS/Unix
-
-        pb.inheritIO().start().waitFor();
-    } catch (IOException | InterruptedException ex) {
-        // Επαναφέρουμε το interrupt flag αν διακοπεί το νήμα
-        if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
-        // Fallback: ANSI escape – δουλεύει στους περισσότερους emulators
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }  
-}
-public static void art() {
+    public static void art() {
         System.out.println();
-        System.out.println("   __  ___   _______       _____ ");sleep(200);
-        System.out.println("  / / / / | / /  _/ |     / /   |");sleep(200);
-        System.out.println(" / / / /  |/ // / | | /| / / /| |");sleep(200);
-        System.out.println("/ /_/ / /|  // /  | |/ |/ / ___ |");sleep(200);
-        System.out.println("\\____/_/ |_/___/  |__/|__/_/  |_|");sleep(200);
+        System.out.println("   __  ___   _______       _____ ");
+        sleep(200);
+        System.out.println("  / / / / | / /  _/ |     / /   |");
+        sleep(200);
+        System.out.println(" / / / /  |/ // / | | /| / / /| |");
+        sleep(200);
+        System.out.println("/ /_/ / /|  // /  | |/ |/ / ___ |");
+        sleep(200);
+        System.out.println("\\____/_/ |_/___/  |__/|__/_/  |_|");
+        sleep(200);
 
-}
+    }
 }
