@@ -10,9 +10,10 @@
 <project name="BookingUniwaApp" default="default" basedir=".">
     <description>Builds, tests, and runs the project BookingUniwaApp.</description>
     <import file="nbproject/build-impl.xml"/>
-    <target name="-post-compile">
-        <copy todir="${build.classes.dir}">
-            <fileset dir="${resources.dir}" excludes="**/*.java"/>
+    <target name="-post-jar">
+        <mkdir dir="${dist.dir}/resources" />
+        <copy todir="${dist.dir}/resources">
+            <fileset dir="${resources.dir}" includes="**/*" />
         </copy>
     </target>
     <!--
