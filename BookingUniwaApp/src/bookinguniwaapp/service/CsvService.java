@@ -75,7 +75,7 @@ public class CsvService {
      * @param data Τα δεδομένα προς εγγραφή.
      */
     public synchronized void writeCsv(List<String[]> data) {
-        File file = new File(resourceUrl.getPath() + fileName);
+        File file = new File(resourceUrl.getPath() + "/" + this.fileName + ".csv");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (String[] row : data) {
                 bw.write(String.join(",", row));

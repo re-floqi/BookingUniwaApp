@@ -28,7 +28,6 @@ public class MusicService extends CrudService<Music> {
         List<String[]> data = new ArrayList<>();
         for (Music music : entityMap.values()) {
             data.add(new String[]{
-                String.valueOf(music.getId()),
                 music.getCode(),
                 music.getTitle(),
                 music.getSinger(),

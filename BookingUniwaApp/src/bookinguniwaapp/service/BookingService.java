@@ -18,8 +18,8 @@ public class BookingService {
         List<String[]> records = csvService.readCsv();
         for (String[] record : records) {
             if (record.length >= 3) {
-                try {
-                bookings.add(new Booking(Long.valueOf(record[0]), record[1], record[2], record[3]));
+            try {
+                bookings.add(new Booking(record[0], record[1], record[2], record[3]));
             } catch (Exception e) {
                 System.out.println("Σφάλμα κατά την ανάγνωση της κράτησης: " + e.getMessage());
             }
@@ -31,7 +31,7 @@ public class BookingService {
         List<String[]> data = new ArrayList<>();
         for (Booking booking : bookings) {
             data.add(new String[]{
-                String.valueOf(booking.getId()),
+                booking.getCode(),
                 booking.getClientCode(),
                 booking.getEventCode(),
                 booking.getEventType()

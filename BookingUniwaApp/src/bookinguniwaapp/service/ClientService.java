@@ -16,7 +16,7 @@ public class ClientService extends CrudService<Client> {
         List<String[]> records = csvService.readCsv();
         for (String[] record : records) {
             if (record.length >= 2) {
-                Client client = new Client(Long.valueOf(record[0]), record[1], record[2]);
+                Client client = new Client(record[0], record[1]);
                 entityMap.put(record[0], client);
             }
         }

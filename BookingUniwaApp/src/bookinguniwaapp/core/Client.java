@@ -4,9 +4,9 @@ public class Client extends BaseEntity {
     private String code;
     private String name;
 
-    public Client(Long id, String code, String name) {
+    public Client(String code, String name) {
         super();
-        super.setId(id);
+        super.setCode(code);
         this.code = code;
         this.name = name;
     }

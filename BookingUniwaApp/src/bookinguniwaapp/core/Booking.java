@@ -5,9 +5,9 @@ public class Booking extends BaseEntity {
     private String eventCode;
     private String eventType; // "THEATER" or "MUSIC"
 
-    public Booking(Long id, String clientCode, String eventCode, String eventType) {
+    public Booking(String code, String clientCode, String eventCode, String eventType) {
         super();
-        super.setId(id);
+        super.setCode(code);
         this.clientCode = clientCode;
         this.eventCode = eventCode;
         this.eventType = eventType;

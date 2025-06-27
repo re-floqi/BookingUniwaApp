@@ -32,7 +32,6 @@ public class TheaterService extends CrudService<Theater> {
         List<String[]> data = new ArrayList<>();
         for (Theater theater : entityMap.values()) {
             data.add(new String[]{
-                String.valueOf(theater.getId()),
                 theater.getCode(),
                 theater.getTitle(),
                 theater.getProtagonist(),

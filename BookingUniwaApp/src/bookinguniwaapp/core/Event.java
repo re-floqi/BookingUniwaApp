@@ -6,9 +6,9 @@ public class Event extends BaseEntity {
     private String location;
     private String date;
 
-    public Event(Long id, String code, String title, String location, String date) {
+    public Event( String code, String title, String location, String date) {
         super();
-        super.setId(id);
+        super.setCode(code);
         this.code = code;
         this.title = title;
         this.location = location;

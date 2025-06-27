@@ -2,13 +2,13 @@ package bookinguniwaapp.core;
 
 public class BaseEntity {
 
-    private Long Id;
+    private String code;
 
-    public Long getId() {
-        return Id;
+    public String getCode() {
+        return code;
     }
 
-    public void setId(Long id) {
-        Id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

@@ -305,7 +305,7 @@ public class App {
         String location = scanner.nextLine();
         System.out.print("Ημερομηνία (YYYY-MM-DD): ");
         String date = scanner.nextLine();
-        musicService.add(code, new Music(code, title, singer, location, date));
+        musicService.add(code, new Music( code, title, singer, location, date));
         musicService.saveData();
         pause();
     }
@@ -424,7 +424,7 @@ public class App {
             }
 
             if (!searchByCode(clientService, code)) {
-            break;  // Βγήκε από το loop αν δεν βρεθεί πελάτης
+            break;  // Βγες από το loop αν δεν βρεθεί πελάτης
             }
                 else {
                 System.out.println("Υπάρχει ήδη πελάτης με αυτόν τον κωδικό. Παρακαλώ προσπαθήστε ξανά ή γράψτε EXIT για έξοδο.");
@@ -435,7 +435,7 @@ public class App {
         System.out.print("Όνοματεπώνυμο: ");
         String name = scanner.nextLine();
 
-        clientService.add(code, new Client(new Random().nextLong(), code, name));
+        clientService.add(code, new Client(code, name));
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
@@ -462,7 +462,7 @@ public class App {
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         System.out.print("Νέο όνοματεπώνυμο: ");
         String name = scanner.nextLine();
-        clientService.update(code, new Client(new Random().nextLong(), code, name));
+        clientService.update(code, new Client(code, name));
         clientService.saveData(); // Αποθήκευση των δεδομένων μετά την προσθήκη
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
@@ -543,6 +543,8 @@ public class App {
     private static void bookTheater() { 
         clearConsole();
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
+        System.out.print("Κωδικός Κράτησης: ");
+        String code = scanner.nextLine();
         System.out.print("Κωδικός Πελάτη: ");
         String clientCode = scanner.nextLine();
 
@@ -583,7 +585,7 @@ public class App {
         }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
         
-        bookingService.addBooking(new Booking(new Random().nextLong(), clientCode, eventCode, "THEATER"));
+        bookingService.addBooking(new Booking(code, clientCode, eventCode, "THEATER"));
         System.out.println("Εγινε κρατηση για την παράσταση: " + theaterService.get(eventCode).getTitle() + " για τον πελάτη: " + clientService.get(clientCode).getName());
         bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
@@ -593,6 +595,8 @@ public class App {
     private static void bookMusic() {
         clearConsole();
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
+        System.out.print("Κωδικός Κράτησης: ");
+        String code = scanner.nextLine();
         System.out.print("Κωδικός Πελάτη: ");
         String clientCode = scanner.nextLine();
 
@@ -634,7 +638,7 @@ public class App {
                 eventCode = scanner.nextLine();
         }
         } while (true);  // Επανάληψη μέχρι να βρει τον κωδικό ή να γίνει έξοδος
-        bookingService.addBooking(new Booking(new Random().nextLong(), clientCode, eventCode, "MUSIC"));
+        bookingService.addBooking(new Booking(code, clientCode, eventCode, "MUSIC"));
         System.out.println("Εγινε κρατηση για την παράσταση: " + musicService.get(eventCode).getTitle() + " για τον πελάτη: " + clientService.get(clientCode).getName());
         bookingService.saveData(); // Αποθήκευση των δεδομένων μετά την κράτηση
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
