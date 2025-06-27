@@ -35,6 +35,11 @@ public class CsvService {
         }
     }
 
+    /**
+     * Εσωτερική Μέθοδος με την οποία γίνεται έλεγχος το κατά πόσον ο κώδικας που εκτελείται, εκτελείται μέσα απο αρχείο jar
+     * δηλαδή production, ή οχι, δηλαδή development.
+     * @return True αν ο κώδικας τρέχει μέσα απο αρχείο jar, αλλιώς False
+     */
     private static boolean checkIfRunningInsideJar() {
         String className = CsvService.class.getName().replace('.', '/') + ".class";
         String classPath = CsvService.class.getClassLoader().getResource(className).toString();
@@ -42,6 +47,12 @@ public class CsvService {
         return classPath != null && classPath.startsWith("jar:file:");
     }
 
+    /**
+     * Επιστρέφει το instance του singleton, αν υπάρχει, διαφορετικά δημιουργεί νέο.
+     * @param clazz Η κλάση που επεκτείνει την κλάση BaseEntity. Χρησιμοποιείται για την επεξεργασία του κατάλληλου αρχείου csv, ανάλογα με το όνομά της
+     * @return Ένα στιγμιότυπο της κλάσης CsvService, αν δεν υπάρχει, αλλιώς το υπάρχουν στιγμιότυπο
+     * @throws SingletonInitializationException Custom exception που εμφανίζεται αν εμφανιστεί άλλο σφάλμα
+     */
     public static CsvService getInstance(Class<? extends BaseEntity> clazz) throws SingletonInitializationException {
         if (INSTANCE == null || selectedClazz == null || !selectedClazz.equals(clazz)) {
             selectedClazz = clazz;
@@ -52,7 +63,7 @@ public class CsvService {
     }
 
     /**
-     * Reads a CSV file.
+     * Διαβάζει ένα csv αρχείο και επιστρέφει τα δεδομένα
      * @return A list with the file's data.
      */
     public synchronized List<String[]> readCsv() {
@@ -100,8 +111,8 @@ public class CsvService {
     }
 
     /**
-     * Writes data to a CSV file.
-     * @param data The data to write.
+     * Γράφει τα δεδομένα στο αντίστοιχο αρχείο CSV
+     * @param data Τα δεδομένα προς εγγραφή.
      */
     public synchronized void writeCsv(List<String[]> data) {
         File file;

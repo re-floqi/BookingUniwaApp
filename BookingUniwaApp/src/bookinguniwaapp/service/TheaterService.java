@@ -12,6 +12,9 @@ public class TheaterService extends CrudService<Theater> {
         this.csvService = CsvService.getInstance(Theater.class);
     }
 
+    /**
+     * Φορτώνει τα δεδομένα απο το αρχείο csv
+     */
     public void loadData() {
         List<String[]> records = csvService.readCsv();
         try {
@@ -28,6 +31,9 @@ public class TheaterService extends CrudService<Theater> {
         }
     }
 
+    /**
+     * Αποθηκεύει τα δεδομένα σε αρχείο csv
+     */
     public void saveData() {
         List<String[]> data = new ArrayList<>();
         for (Theater theater : entityMap.values()) {

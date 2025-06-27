@@ -12,6 +12,9 @@ public class ClientService extends CrudService<Client> {
         this.csvService = CsvService.getInstance(Client.class);
     }
 
+    /**
+     * Φορτώνει τα δεδομένα απο το αρχείο csv
+     */
     public void loadData() {
         List<String[]> records = csvService.readCsv();
         for (String[] record : records) {
@@ -22,6 +25,9 @@ public class ClientService extends CrudService<Client> {
         }
     }
 
+    /**
+     * Αποθηκεύει τα δεδομένα σε αρχείο csv
+     */
     public void saveData() {
         List<String[]> data = new ArrayList<>();
         for (Client client : entityMap.values()) {

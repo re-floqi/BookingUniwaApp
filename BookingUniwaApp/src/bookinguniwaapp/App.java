@@ -38,8 +38,12 @@ public class App {
         sleep(3000); // Καθυστέρηση 3 δευτερολέπτων πριν το κλείσιμο
     }
 
-    // Αρχικοποίηση των υπηρεσιών
-    // Δημιουργεί αντικείμενα υπηρεσιών και φορτώνει τα δεδομένα από τα αντίστοιχα CSV αρχεία
+
+    /**
+     * Αρχικοποίηση των υπηρεσιών
+     * Δημιουργεί αντικείμενα υπηρεσιών και φορτώνει τα δεδομένα από τα αντίστοιχα CSV αρχεία
+     * @throws SingletonInitializationException
+     */
     private static void initializeServices() throws SingletonInitializationException {
         theaterService = new TheaterService();
         musicService = new MusicService();
@@ -47,7 +51,9 @@ public class App {
         bookingService = new BookingService();
     }
 
-    // Φόρτωμα δεδομένων από τα CSV αρχεία
+    /**
+     * Φόρτωμα δεδομένων από τα CSV αρχεία
+     */
     private static void loadData() {
         theaterService.loadData();
         musicService.loadData();
@@ -56,8 +62,11 @@ public class App {
         System.out.println("Τα αρχικά δεδομένα φορτώθηκαν επιτυχώς!"); // Μήνυμα επιβεβαίωσης φόρτωσης
     }
 
-    // Τελικη Αποθήκευση δεδομένων στα CSV αρχεία
-    // Αποθηκεύει όλα τα δεδομένα των υπηρεσιών στα αντίστοιχα CSV αρχεία
+
+    /**
+     *     Τελικη Αποθήκευση δεδομένων στα CSV αρχεία
+     *     Αποθηκεύει όλα τα δεδομένα των υπηρεσιών στα αντίστοιχα CSV αρχεία
+     */
     private static void saveData() {
         theaterService.saveData();
         musicService.saveData();
@@ -69,19 +78,28 @@ public class App {
     }
 
 
-    public static void pause() { // Μέθοδος για παύση της εκτέλεσης και αναμονή για είσοδο από τον χρήστη
+    /**
+     * Μέθοδος για παύση της εκτέλεσης και αναμονή για είσοδο από τον χρήστη
+     */
+    public static void pause() {
         System.out.print("Πατήστε Enter για να συνεχίσετε...");
         scanner.nextLine();
     }
 
-    public static void sleep(long millis) { // Μέθοδος για καθυστέρηση εκτέλεσης
+    /**
+     * Μέθοδος για καθυστέρηση εκτέλεσης
+     * @param millis Τα milliseconds για την καθυστέρηση
+     */
+    public static void sleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException ignored) {
         }
     }
 
-    // Κύριο μενού εφαρμογής
+    /**
+     * Κύριο μενού εφαρμογής
+     */
     private static void mainMenu() {
         int choice;
         do {
@@ -121,7 +139,9 @@ public class App {
         } while (choice != 5);
     }
 
-    // Διαχείριση θεατρικών παραστάσεων
+    /**
+     * Διαχείριση θεατρικών παραστάσεων
+     */
     private static void manageTheater() {
         int choice;
         do {
@@ -165,7 +185,9 @@ public class App {
         return service.exists(code);
     }
 
-    // Προσθήκη νέας θεατρικής παράστασης
+    /**
+     * Προσθήκη νέας θεατρικής παράστασης
+     */
     private static void addTheater() {
         clearConsole();
         System.out.println("===== [Προσθήκη Νέας Θεατρικής Παράστασης] ======");
@@ -197,7 +219,9 @@ public class App {
         pause();
     }
 
-    // Ενημέρωση υπάρχουσας θεατρικής παράστασης
+    /**
+     * Ενημέρωση υπάρχουσας θεατρικής παράστασης
+     */
     private static void updateTheater() {
         clearConsole();
         System.out.println("== [Ενημέρωση Θεατρικής Παράστασης] ==");
@@ -229,6 +253,9 @@ public class App {
         pause();
     }
 
+    /**
+     * Διαγραφή θεατρικής παράστασης
+     */
     private static void deleteTheater() {
         clearConsole();
         System.out.println("=== [Διαγραφή Θεατρικής Παράστασης] ===");
@@ -252,6 +279,9 @@ public class App {
         pause();
     }
 
+    /**
+     * Εμφάνιση όλων των θεατρικών παραστάσεων
+     */
     private static void showAllTheaters() {
         clearConsole();
         System.out.println("== [Κατάλογος Θεατρικών Παραστάσεων] ==");
@@ -273,19 +303,36 @@ public class App {
         }
     }
 
+    /**
+     * Αναζήτηση θεατρικής παράστασης με βάση τον κωδικό της
+     * @param code Ο κωδικός της θεατρικής παράστασης προς αναζήτηση
+     * @return True αν η θεατρική παράσταση βρέθηκε, αλλιώς False
+     */
     public static boolean searchByCodeTheater(String code) {
         return searchByCode(theaterService, code);
     }
 
+    /**
+     * Αναζήτηση μουσικής παράστασης με βάση τον κωδικό της
+     * @param code Ο κωδικός της μουσικής παράστασης προς αναζήτηση
+     * @return True αν η μουσική παράσταση βρέθηκε, αλλιώς False
+     */
     public static boolean searchByCodeMusic(String code) {
         return searchByCode(musicService, code);
     }
 
+    /**
+     * Αναζήτηση πελάτη με βάση τον κωδικό του
+     * @param code Ο κωδικός πελάτη προς αναζήτηση
+     * @return True αν ο πελάτη βρέθηκε, αλλιώς False
+     */
     public static boolean searchByCodeClient(String code) {
         return searchByCode(clientService, code);
     }
 
-    // Διαχείριση μουσικών παραστάσεων (παρόμοια με θεατρικές)
+    /**
+     * Διαχείριση μουσικών παραστάσεων (παρόμοια με θεατρικές)
+     */
     private static void manageMusic() {
         int choice;
         do {
@@ -324,6 +371,9 @@ public class App {
         } while (choice != 5);
     }
 
+    /**
+     * Προσθήκη μουσικής παράστασης
+     */
     private static void addMusic() {
         System.out.println("= [Προσθήκη Νέας Μουσικής Παράστασης] =");
         System.out.print("Κωδικός Παράστασης: ");
@@ -354,6 +404,9 @@ public class App {
         pause();
     }
 
+    /**
+     * Ενημέρωση μουσικής παράστασης
+     */
     private static void updateMusic() {
         clearConsole();
         System.out.println("=== [Ενημέρωση Μουσικής Παράστασης] ===");
@@ -385,6 +438,9 @@ public class App {
         pause();
     }
 
+    /**
+     * Διαγραφή μουσικής παράστασης
+     */
     private static void deleteMusic() {
         clearConsole();
         System.out.println("=== [Διαγραφή Μουσικής Παράστασης] ===");
@@ -408,6 +464,9 @@ public class App {
         pause();
     }
 
+    /**
+     * Εμφάνιση όλων των καταχωρημένων μουσικών παραστάσεων
+     */
     private static void showAllMusic() {
         clearConsole();
         System.out.println("== [Κατάλογος Μουσικών Παραστάσεων] ==");
@@ -429,7 +488,9 @@ public class App {
         }
     }
 
-    // Διαχείριση πελατών
+    /**
+     * Εμφάνιση μενού διαχείρισης πελατών
+     */
     private static void manageClients() {
         int choice;
         do {
@@ -468,6 +529,9 @@ public class App {
         } while (choice != 5);
     }
 
+    /**
+     * Προσθήκη πελάτη
+     */
     private static void addClient() {
         clearConsole();
         System.out.println("====== [Εγγραφή Νέου Πελάτη] ======");
@@ -495,6 +559,9 @@ public class App {
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
+    /**
+     * Ενημέρωση πελάτη
+     */
     private static void updateClient() {
         clearConsole();
         System.out.println("==== [Ενημέρωση Στοιχείων Πελάτη] ====");
@@ -521,6 +588,9 @@ public class App {
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
+    /**
+     * Διαγραφή πελάτη
+     */
     private static void deleteClient() {
         clearConsole();
         System.out.println("========== [Διαγραφή Πελάτη] ==========");
@@ -545,6 +615,9 @@ public class App {
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
+    /**
+     * Εμφάνιση όλων των καταχωρημένων πελατών
+     */
     private static void showAllClients() {
         clearConsole();
         System.out.println("========= [Κατάλογος Πελατών] =========");
@@ -565,7 +638,9 @@ public class App {
         }
     }
 
-    // Διαχείριση κρατήσεων και στατιστικών
+    /**
+     * Διαχείριση κρατήσεων και στατιστικών
+     */
     private static void manageBookings() {
         int choice;
         do {
@@ -604,7 +679,9 @@ public class App {
         } while (choice != 5);
     }
 
-    // Κράτηση θεατρικής παράστασης
+    /**
+     * Κράτηση θεατρικής παράστασης
+     */
     private static void bookTheater() {
         clearConsole();
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
@@ -654,7 +731,9 @@ public class App {
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
-    // Κράτηση μουσικής παράστασης
+    /**
+     * Κράτηση μουσικής παράστασης
+     */
     private static void bookMusic() {
         clearConsole();
         System.out.println("=== [Κράτηση Θεατρικής Παράστασης] ===");
@@ -705,7 +784,9 @@ public class App {
         pause(); // Παύση για να δει ο χρήστης το μήνυμα
     }
 
-    // Στατιστικά θεατρικών παραστάσεων
+    /**
+     * Εμφάνιση στατιστικών για τις θεατρικές παραστάσεις
+     */
     private static void showTheaterStats() {
         clearConsole();
         System.out.println("== [Στατιστικά Θεατρικών Παραστάσεων] ==");
@@ -727,7 +808,9 @@ public class App {
         pause(); // Παύση για να δει ο χρήστης τα στατιστικά
     }
 
-    // Στατιστικά μουσικών παραστάσεων
+    /**
+     * Εμφάνιση στατιστικών για τις μουσικές παραστάσεις
+     */
     private static void showMusicStats() {
         clearConsole();
         System.out.println("\n--- Στατιστικά Μουσικών Παραστάσεων ---");

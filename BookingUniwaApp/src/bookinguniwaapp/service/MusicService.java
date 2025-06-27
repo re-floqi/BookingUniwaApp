@@ -12,6 +12,9 @@ public class MusicService extends CrudService<Music> {
         this.csvService = CsvService.getInstance(Music.class);
     }
 
+    /**
+     * Φορτώνει τα δεδομένα απο το αρχείο csv
+     */
     public void loadData() {
         List<String[]> records = csvService.readCsv();
         for (String[] record : records) {
@@ -24,6 +27,9 @@ public class MusicService extends CrudService<Music> {
         }
     }
 
+    /**
+     * Αποθηκεύει τα δεδομένα σε αρχείο csv
+     */
     public void saveData() {
         List<String[]> data = new ArrayList<>();
         for (Music music : entityMap.values()) {

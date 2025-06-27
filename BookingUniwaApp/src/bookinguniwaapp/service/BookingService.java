@@ -14,6 +14,9 @@ public class BookingService {
         this.csvService = CsvService.getInstance(Booking.class);
     }
 
+    /**
+     * Φορτώνει τα δεδομένα απο το αρχείο csv
+     */
     public void loadData() {
         List<String[]> records = csvService.readCsv();
         for (String[] record : records) {
@@ -27,6 +30,9 @@ public class BookingService {
         }
     }
 
+    /**
+     * Αποθηκεύει τα δεδομένα σε αρχείο csv
+     */
     public void saveData() {
         List<String[]> data = new ArrayList<>();
         for (Booking booking : bookings) {
@@ -44,10 +50,18 @@ public class BookingService {
         }
     }
 
+    /**
+     * Προσθέτει μία νέα κράτηση
+     * @param booking Η νέα κράτηση
+     */
     public void addBooking(Booking booking) {
         bookings.add(booking);
     }
 
+    /**
+     * Επιστρέφει στατιστικά στοιχεία για τις κρατήσεις θεατρικών παραστάσεων
+     * @return Ένα Map κειμένου και αριθμού, που αναπαριστά τις κρατήσεις ανά θεατρική παράσταση
+     */
     public Map<String, Integer> getTheaterStatistics() {
         Map<String, Integer> stats = new HashMap<>();
         for (Booking booking : bookings) {
@@ -58,6 +72,10 @@ public class BookingService {
         return stats;
     }
 
+    /**
+     * Επιστρέφει στατιστικά στοιχεία για τις κρατήσεις μουσικών παραστάσεων
+     * @return Ένα Map κειμένου και αριθμού, που αναπαριστά τις κρατήσεις ανά μουσική παράσταση
+     */
     public Map<String, Integer> getMusicStatistics() {
         Map<String, Integer> stats = new HashMap<>();
         for (Booking booking : bookings) {
